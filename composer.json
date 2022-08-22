@@ -1,0 +1,34 @@
+{
+    "name": "dotkernel/dot-data-fixtures",
+    "description": "Provides a CLI interface for listing & executing doctrine data fixtures",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/dotkernel/dot-data-fixtures",
+    "authors": [
+        {
+            "name": "DotKernel Team",
+            "email": "team@dotkernel.com"
+        }
+    ],
+    "keywords": [
+        "dotkernel",
+        "doctrine",
+        "fixtures",
+        "data-fixtures",
+        "doctrine-data-fixtures",
+        "laminas",
+        "mezzio"
+    ],
+    "require": {
+        "php": "~7.4.0 || ~8.0.0 || ~8.1.0",
+        "doctrine/data-fixtures": "^1.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dot\\DataFixtures\\": "src"
+        }
+    }
+}
