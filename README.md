@@ -96,7 +96,7 @@ php bin/doctrine fixtures:execute --class=RoleLoader
 When creating a new fixture we have 2 requirements :
 - Fixtures should be created in the folder we configured earlier. ``data/doctrine/fixtures``
 - Fixtures should implement ``FixtureInterface`` and have a ``load`` method.
-- Create a new php file and copy the the below code-block.
+- Create a new php file and copy the below code-block.
 
 #### Example :
 
