@@ -55,17 +55,17 @@ class ListFixturesCommand extends Command
         $rows = [];
         foreach ($loader->getFixtures() as $fixture) {
             $reflectionClass = new ReflectionClass($fixture);
-            $createdAt = DateTimeImmutable::createFromFormat('U', filemtime($reflectionClass->getFileName()));
+            $lastUpdatedAt = DateTimeImmutable::createFromFormat('U', filemtime($reflectionClass->getFileName()));
 
             $rows[] = [
                 'namespace' => $reflectionClass->getName(),
                 'command' => ExecuteFixturesCommand::getDefaultName() . ' --class=' . $reflectionClass->getShortName(),
-                'created_at' => $createdAt->format('Y-m-d H:i:s'),
+                'last_updated_at' => $lastUpdatedAt->format('Y-m-d H:i:s'),
             ];
         }
 
         usort($rows, function($a, $b) {
-            return new DateTimeImmutable($a['created_at']) <=> new DateTimeImmutable($b['created_at']);
+            return new DateTimeImmutable($a['last_updated_at']) <=> new DateTimeImmutable($b['last_updated_at']);
         });
 
         $table = new Table($output);

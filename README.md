@@ -1,4 +1,13 @@
-#dot-data-fixtures
+# dot-data-fixtures
+
+![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.0.0)
+
+[![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
+[![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
+[![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/stargazers)
+[![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/1.0/LICENSE)
+
 
 This package provides a CLI interface for interacting with doctrine/data-fixtures.
 
@@ -61,6 +70,41 @@ ConsoleRunner::run(
 );
 ```
 
+## Usage
+
+**List fixtures command** - will list all available fixtures printing the namespace, generating the command to run a specific fixture and the last updated at date.
+````bash
+php bin/doctrine fixtures:list
+````
+
+**Execute fixtures command** - this command will execute all or one fixture.
+- To execute all the fixtures run : 
+```bash
+php bin/doctrine fixtures:execute
+```
+
+- To execute a specific fixture run :
+```bash
+php bin/doctrine fixtures:execute --class=RoleLoader
+```
+
+**NOTE**
+
+Executing fixtures by default will **append** data to the tables.
+
+If you want to first purge the table(s) before inserting you can use the execute fixture(s) command in combination with the ``--append=false`` option.
+
+#### Example :
+```bash
+php bin/doctrine fixtures:execute --append=false
+```
+
+or
+
+```bash
+php bin/doctrine fixtures:execute --class=RoleLoader --append=false
+```
+
 ## Creating fixtures
 
 When creating a new fixture we have 2 requirements :
@@ -87,21 +131,4 @@ class RoleLoader implements FixtureInterface
         $manager->flush();
     }
 }
-```
-
-## Usage
-
-**List fixtures command** - will list all available fixtures printing the namespace, generating the command to run a specific fixture and the last updated at date.
-````bash
-php bin/doctrine fixtures:list
-````
-
-**Execute fixtures command** - this command will execute all or one fixture.
-- To execute all the fixtures run : 
-```bash
-php bin/doctrine fixtures:execute
-```
-- To execute a specific fixture run :
-```bash
-php bin/doctrine fixtures:execute --class=RoleLoader
 ```
