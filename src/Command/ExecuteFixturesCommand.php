@@ -48,12 +48,6 @@ class ExecuteFixturesCommand extends Command
         $this->setName(self::$defaultName)
             ->setDescription('Executes one or multiple fixtures.')
             ->addOption(
-                'append',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'If true the data is appended else the table is emptied before inserting the data.',
-                'true'
-            )->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -70,7 +64,7 @@ class ExecuteFixturesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $loader = new Loader();
-        $purger = new ORMPurger();
+        $purger = new ORMPurger($this->entityManager);
 
         $executor = new ORMExecutor($this->entityManager, $purger);
 
@@ -82,7 +76,7 @@ class ExecuteFixturesCommand extends Command
 
         $fixtures = $loader->getFixtures();
 
-        $executor->execute($fixtures, $input->getOption('append') === 'true');
+        $executor->execute($fixtures, true);
 
         foreach ($fixtures as $fixture) {
             $output->writeln(sprintf('<info>Executing %s </info>', get_class($fixture)));

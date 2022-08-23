@@ -6,6 +6,7 @@ namespace Dot\DataFixtures\Command;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,10 +64,6 @@ class ListFixturesCommand extends Command
                 'last_updated_at' => $lastUpdatedAt->format('Y-m-d H:i:s'),
             ];
         }
-
-        usort($rows, function($a, $b) {
-            return new DateTimeImmutable($a['last_updated_at']) <=> new DateTimeImmutable($b['last_updated_at']);
-        });
 
         $table = new Table($output);
         $table

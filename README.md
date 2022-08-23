@@ -42,12 +42,11 @@ return [
 ];
 ```
 
-The last step is to register the commands. 
+The last step is to register the commands.
 We can register the commands to work with the default CLI that doctrine provides us.
-Go to `bin/doctrine` (if you don't already have this file feel free to copy it from the below example)
+Create a new php file `bin/doctrine` (if you don't already have this file feel free to copy it from the below example)
 
 ```php
-#!/usr/bin/env php
 <?php
 
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
@@ -72,13 +71,13 @@ ConsoleRunner::run(
 
 ## Usage
 
-**List fixtures command** - will list all available fixtures printing the namespace, generating the command to run a specific fixture and the last updated at date.
+**List fixtures command** - will list all the available fixtures, by order of execution.
 ````bash
 php bin/doctrine fixtures:list
 ````
 
 **Execute fixtures command** - this command will execute all or one fixture.
-- To execute all the fixtures run : 
+- To execute all the fixtures run :
 ```bash
 php bin/doctrine fixtures:execute
 ```
@@ -90,45 +89,55 @@ php bin/doctrine fixtures:execute --class=RoleLoader
 
 **NOTE**
 
-Executing fixtures by default will **append** data to the tables.
-
-If you want to first purge the table(s) before inserting you can use the execute fixture(s) command in combination with the ``--append=false`` option.
-
-#### Example :
-```bash
-php bin/doctrine fixtures:execute --append=false
-```
-
-or
-
-```bash
-php bin/doctrine fixtures:execute --class=RoleLoader --append=false
-```
+**Executing fixtures will **append** data to the tables.**
 
 ## Creating fixtures
 
 When creating a new fixture we have 2 requirements :
-- Fixtures should be created in the path we configured earlier.
+- Fixtures should be created in the folder we configured earlier. ``data/doctrine/fixtures``
 - Fixtures should implement ``FixtureInterface`` and have a ``load`` method.
+- Create a new php file and copy the the below code-block.
 
-#### Example : 
+#### Example :
 
 ```php
+<?php
+
+namespace Frontend\Fixtures;
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use Frontend\User\Entity\UserRole;
+
+
 class RoleLoader implements FixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $admin = new UserRole();
-        $admin->setName('admin');
+        $adminRole = new UserRole();
+        $adminRole->setName('admin');
 
-        $guest = new UserRole();
-        $guest->setName('guest');
-
-
-        $manager->persist($admin);
-        $manager->persist($guest);
+        $userRole = new UserRole();
+        $userRole->setName('user');
+        
+        $guestRole = new UserRole();
+        $guestRole->setName('guest');
+        
+        $manager->persist($adminRole);
+        $manager->persist($userRole);
+        $manager->persist($guestRole);
 
         $manager->flush();
     }
 }
 ```
+
+## Ordering fixtures
+
+Fixtures can we ordered using 2 methods :
+ - by order
+ - by dependencies
+
+Please reffer to this link for further details on ordering fixtures: 
+
+https://www.doctrine-project.org/projects/doctrine-data-fixtures/en/latest/how-to/fixture-ordering.html#fixture-ordering
