@@ -14,7 +14,7 @@ class ListFixturesCommandFactory
      */
     public function __invoke(ContainerInterface $container): ListFixturesCommand
     {
-        $path = $container->get('config')['doctrine']['fixtures'] ?? '';
+        $path = $container->get('config')['doctrine']['fixtures'] ?? null;
         if (! is_string($path)) {
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
         }
