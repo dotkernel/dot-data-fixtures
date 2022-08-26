@@ -25,15 +25,15 @@ class ExecuteFixturesCommandFactory
      */
     public function __invoke(ContainerInterface $container): ExecuteFixturesCommand
     {
-        $entityManager = $container->has(EntityManager::class) ?
-            $container->get(EntityManager::class) :
+        if( ! $container->has(EntityManager::class)) {
             throw new NotFoundException('EntityManager not found.');
+        }
 
-        $path = $container->get('config')['doctrine']['fixtures'] ?? '';
+        $path = $container->get('config')['doctrine']['fixtures'] ?? null;
         if (! is_string($path)) {
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
         }
 
-        return new ExecuteFixturesCommand($entityManager, $path);
+        return new ExecuteFixturesCommand($container->get(EntityManager::class), $path);
     }
 }
