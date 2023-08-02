@@ -9,10 +9,6 @@ use Dot\DataFixtures\Command\ListFixturesCommand;
 use Dot\DataFixtures\Factory\ExecuteFixturesCommandFactory;
 use Dot\DataFixtures\Factory\ListFixturesCommandFactory;
 
-/**
- * Class ConfigProvider
- * @package Dot\DataFixtures
- */
 class ConfigProvider
 {
     /**
@@ -35,9 +31,9 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'factories'  => [
+            'factories' => [
                 ExecuteFixturesCommand::class => ExecuteFixturesCommandFactory::class,
-                ListFixturesCommand::class => ListFixturesCommandFactory::class,
+                ListFixturesCommand::class    => ListFixturesCommandFactory::class,
             ],
         ];
     }

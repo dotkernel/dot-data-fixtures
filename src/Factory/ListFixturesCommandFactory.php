@@ -1,16 +1,23 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Factory;
 
 use Dot\DataFixtures\Command\ListFixturesCommand;
+use Dot\DataFixtures\Exception\NotFoundException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
+use function is_string;
 
 class ListFixturesCommandFactory
 {
     /**
-     * @param ContainerInterface $container
-     * @return ListFixturesCommand
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): ListFixturesCommand
     {

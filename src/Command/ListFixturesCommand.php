@@ -1,33 +1,26 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Command;
 
-
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use ReflectionClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use ReflectionClass;
-use DateTimeImmutable;
 
-/**
- * Class ListFixturesCommand
- * @package Dot\DataFixtures\Command
- */
+use function filemtime;
+
 class ListFixturesCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'fixtures:list';
 
     private string $path;
 
-    /**
-     * ListFixturesCommand constructor.
-     * @param string $path
-     */
     public function __construct(string $path)
     {
         parent::__construct(self::$defaultName);
@@ -35,32 +28,29 @@ class ListFixturesCommand extends Command
         $this->path = $path;
     }
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setName(self::$defaultName)->setDescription('List all available fixtures.');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $loader = new Loader();
         $loader->loadFromDirectory($this->path);
 
-        $rows = [];
+        $rows        = [];
+        $commandName = ExecuteFixturesCommand::getDefaultName();
+
         foreach ($loader->getFixtures() as $fixture) {
             $reflectionClass = new ReflectionClass($fixture);
-            $lastUpdatedAt = DateTimeImmutable::createFromFormat('U', filemtime($reflectionClass->getFileName()));
+            $lastUpdatedAt   = DateTimeImmutable::createFromFormat(
+                'U',
+                (string) filemtime($reflectionClass->getFileName())
+            );
 
             $rows[] = [
-                'namespace' => $reflectionClass->getName(),
-                'command' => ExecuteFixturesCommand::getDefaultName() . ' --class=' . $reflectionClass->getShortName(),
+                'namespace'       => $reflectionClass->getName(),
+                'command'         => $commandName . ' --class=' . $reflectionClass->getShortName(),
                 'last_updated_at' => $lastUpdatedAt->format('Y-m-d H:i:s'),
             ];
         }

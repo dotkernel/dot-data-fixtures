@@ -9,6 +9,9 @@
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/stargazers)
 [![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/1.0/LICENSE)
 
+[![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
+
+[![SymfonyInsight](https://insight.symfony.com/projects/6bac345c-9548-47ec-ab4a-25773a98ed03/big.svg)](https://insight.symfony.com/projects/6bac345c-9548-47ec-ab4a-25773a98ed03)
 
 This package provides a CLI interface for interacting with doctrine/data-fixtures.
 

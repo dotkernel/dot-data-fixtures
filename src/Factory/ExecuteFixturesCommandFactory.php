@@ -1,31 +1,27 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Factory;
-
 
 use Doctrine\ORM\EntityManager;
 use Dot\DataFixtures\Command\ExecuteFixturesCommand;
 use Dot\DataFixtures\Exception\NotFoundException;
-use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-/**
- * Class ExecuteFixturesCommandFactory
- * @package Dot\DataFixtures\Factory
- */
+use function is_string;
+
 class ExecuteFixturesCommandFactory
 {
     /**
-     * @param ContainerInterface $container
-     * @return ExecuteFixturesCommand
      * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface|NotFoundException
      */
     public function __invoke(ContainerInterface $container): ExecuteFixturesCommand
     {
-        if( ! $container->has(EntityManager::class)) {
+        if (! $container->has(EntityManager::class)) {
             throw new NotFoundException('EntityManager not found.');
         }
 

@@ -1,48 +1,39 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Command;
-
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
-/**
- * Class ExecuteFixturesCommand
- * @package Dot\DataFixtures\Command
- */
+use function sprintf;
+
+use const DIRECTORY_SEPARATOR;
+
 class ExecuteFixturesCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'fixtures:execute';
 
     private EntityManager $entityManager;
 
     private string $path;
 
-    /**
-     * ExecuteFixturesCommand constructor.
-     * @param EntityManager $entityManager
-     * @param string $path
-     */
     public function __construct(EntityManager $entityManager, string $path)
     {
         parent::__construct(self::$defaultName);
 
         $this->entityManager = $entityManager;
-        $this->path = $path;
+        $this->path          = $path;
     }
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setName(self::$defaultName)
@@ -56,11 +47,6 @@ class ExecuteFixturesCommand extends Command
             );
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $loader = new Loader();
@@ -79,7 +65,7 @@ class ExecuteFixturesCommand extends Command
         $executor->execute($fixtures, true);
 
         foreach ($fixtures as $fixture) {
-            $output->writeln(sprintf('<info>Executing %s </info>', get_class($fixture)));
+            $output->writeln(sprintf('<info>Executing %s </info>', $fixture::class));
         }
 
         $output->writeln("<info>Fixtures have been loaded.</info>");
