@@ -31,7 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dot\\DataFixtures\\": "src"
+            "Dot\\DataFixtures\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DotTest\\DataFixtures\\": "test/"
         }
     },
     "scripts": {
@@ -46,6 +51,7 @@
         "static-analysis": "psalm --shepherd --stats"
     },
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }

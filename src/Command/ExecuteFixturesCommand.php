@@ -23,14 +23,25 @@ class ExecuteFixturesCommand extends Command
     protected static $defaultName = 'fixtures:execute';
 
     private EntityManager $entityManager;
+    private Loader $loader;
+    private ORMPurger $purger;
+    private ORMExecutor $executor;
 
     private string $path;
 
-    public function __construct(EntityManager $entityManager, string $path)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        Loader $loader,
+        ORMPurger $purger,
+        ORMExecutor $executor,
+        string $path
+    ) {
         parent::__construct(self::$defaultName);
 
         $this->entityManager = $entityManager;
+        $this->loader        = $loader;
+        $this->purger        = $purger;
+        $this->executor      = $executor;
         $this->path          = $path;
     }
 
@@ -49,20 +60,18 @@ class ExecuteFixturesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $loader = new Loader();
-        $purger = new ORMPurger($this->entityManager);
+        $this->purger->setEntityManager($this->entityManager);
+        $this->executor->setPurger($this->purger);
 
-        $executor = new ORMExecutor($this->entityManager, $purger);
-
-        if ($input->getOption('class') === false) {
-            $loader->loadFromDirectory($this->path);
+        if (empty($input->getOptions())) {
+            $this->loader->loadFromDirectory($this->path);
         } else {
-            $loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
+            $this->loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
         }
 
-        $fixtures = $loader->getFixtures();
+        $fixtures = $this->loader->getFixtures();
 
-        $executor->execute($fixtures, true);
+        $this->executor->execute($fixtures, true);
 
         foreach ($fixtures as $fixture) {
             $output->writeln(sprintf('<info>Executing %s </info>', $fixture::class));

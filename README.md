@@ -1,8 +1,7 @@
 # dot-data-fixtures
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
-
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.0.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.1.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
@@ -18,7 +17,7 @@ This package provides a CLI interface for interacting with doctrine/data-fixture
 **Executing fixtures will **append** data to the tables.**
 
 ### Requirements
-- PHP >= 7.4
+- PHP >= 8.1
 - doctrine/data-fixtures => 1.5
 
 ## Installation
