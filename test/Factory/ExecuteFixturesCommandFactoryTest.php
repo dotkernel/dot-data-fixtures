@@ -36,9 +36,9 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
     }
 
     /**
+     * @throws ContainerExceptionInterface
      * @throws Exception
      * @throws NotFoundException
-     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function testWillNotCreateServiceWithoutEntityManager(): void
@@ -107,8 +107,8 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
     }
 
     /**
-     * @throws NotFoundException
      * @throws ContainerExceptionInterface
+     * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
     public function testWillNotCreateServiceWithoutPath(): void
@@ -129,10 +129,10 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
     }
 
     /**
-     * @throws NotFoundExceptionInterface
-     * @throws NotFoundException
      * @throws ContainerExceptionInterface
      * @throws Exception
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function testPath(): void
     {

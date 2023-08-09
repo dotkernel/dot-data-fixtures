@@ -38,8 +38,8 @@ class ListFixturesCommandTest extends TestCase
     }
 
     /**
-     * @throws ReflectionException
      * @throws Exception
+     * @throws ReflectionException
      */
     public function testWillExecuteCommand(): void
     {
