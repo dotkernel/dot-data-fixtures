@@ -7,6 +7,9 @@ namespace DotTest\DataFixtures\Factory;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\EventManager;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Dot\DataFixtures\Command\ListFixturesCommand;
 use Dot\DataFixtures\Exception\NotFoundException;
@@ -57,10 +60,17 @@ class ListFixturesCommandFactoryTest extends TestCase
      */
     public function testPathWithConfig(): void
     {
+        $configuration = $this->createMock(Configuration::class);
+        $connection    = $this->createMock(Connection::class);
         $entityManager = $this->createMock(EntityManager::class);
+        $eventManager  = $this->createMock(EventManager::class);
         $loader        = $this->createMock(Loader::class);
         $purger        = $this->createMock(ORMPurger::class);
         $executor      = $this->createMock(ORMExecutor::class);
+        $connection->method('getConfiguration')->willReturn($configuration);
+        $entityManager->method('getConnection')->willReturn($connection);
+        $entityManager->method('getEventManager')->willReturn($eventManager);
+        $purger->method('getObjectManager')->willReturn($entityManager);
 
         $this->container->method('get')->willReturnMap([
             [EntityManager::class, $entityManager],
