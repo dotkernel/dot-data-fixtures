@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class NotFoundExceptionTest extends TestCase
 {
-    public function testCreate(): void
+    public function testCreate()
     {
         $exception = new NotFoundException();
         $this->assertInstanceOf(NotFoundException::class, $exception);
