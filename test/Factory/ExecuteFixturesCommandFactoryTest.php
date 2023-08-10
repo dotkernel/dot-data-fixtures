@@ -54,60 +54,6 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
 
     /**
      * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function testWillNotCreateServiceWithoutLoader(): void
-    {
-        $this->container->method('has')->willReturnMap([
-            [EntityManager::class, true],
-            [Loader::class, false],
-            [ORMPurger::class, true],
-            [ORMExecutor::class, true],
-            ['config', true],
-        ]);
-        $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('Loader not found.');
-        (new ExecuteFixturesCommandFactory())($this->container);
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function testWillNotCreateServiceWithoutPurger(): void
-    {
-        $this->container->method('has')->willReturnMap([
-            [EntityManager::class, true],
-            [Loader::class, true],
-            [ORMPurger::class, false],
-            [ORMExecutor::class, true],
-            ['config', true],
-        ]);
-        $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('ORMPurger not found.');
-        (new ExecuteFixturesCommandFactory())($this->container);
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function testWillNotCreateServiceWithoutExecutor(): void
-    {
-        $this->container->method('has')->willReturnMap([
-            [EntityManager::class, true],
-            [Loader::class, true],
-            [ORMPurger::class, true],
-            [ORMExecutor::class, false],
-            ['config', true],
-        ]);
-        $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('ORMExecutor not found.');
-        (new ExecuteFixturesCommandFactory())($this->container);
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
      * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */

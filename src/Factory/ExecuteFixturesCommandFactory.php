@@ -29,18 +29,6 @@ class ExecuteFixturesCommandFactory
             throw new NotFoundException('EntityManager not found.');
         }
 
-        if (! $container->has(ORMPurger::class)) {
-            throw new NotFoundException('ORMPurger not found. ');
-        }
-
-        if (! $container->has(Loader::class)) {
-            throw new NotFoundException('Loader not found. ');
-        }
-
-        if (! $container->has(ORMExecutor::class)) {
-            throw new NotFoundException('ORMExecutor not found. ');
-        }
-
         $path = $container->get('config')['doctrine']['fixtures'] ?? null;
         if (! is_string($path)) {
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
@@ -48,9 +36,9 @@ class ExecuteFixturesCommandFactory
 
         return new ExecuteFixturesCommand(
             $container->get(EntityManager::class),
-            $container->get(Loader::class),
-            $container->get(ORMPurger::class),
-            $container->get(ORMExecutor::class),
+            new Loader(),
+            new ORMPurger(),
+            new ORMExecutor($container->get(EntityManager::class)),
             $path
         );
     }
