@@ -1,48 +1,50 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Command;
-
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
-/**
- * Class ExecuteFixturesCommand
- * @package Dot\DataFixtures\Command
- */
+use function sprintf;
+
+use const DIRECTORY_SEPARATOR;
+
 class ExecuteFixturesCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'fixtures:execute';
 
     private EntityManager $entityManager;
+    private Loader $loader;
+    private ORMPurger $purger;
+    private ORMExecutor $executor;
 
     private string $path;
 
-    /**
-     * ExecuteFixturesCommand constructor.
-     * @param EntityManager $entityManager
-     * @param string $path
-     */
-    public function __construct(EntityManager $entityManager, string $path)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        Loader $loader,
+        ORMPurger $purger,
+        ORMExecutor $executor,
+        string $path
+    ) {
         parent::__construct(self::$defaultName);
 
         $this->entityManager = $entityManager;
-        $this->path = $path;
+        $this->loader        = $loader;
+        $this->purger        = $purger;
+        $this->executor      = $executor;
+        $this->path          = $path;
     }
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setName(self::$defaultName)
@@ -56,30 +58,23 @@ class ExecuteFixturesCommand extends Command
             );
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $loader = new Loader();
-        $purger = new ORMPurger($this->entityManager);
+        $this->purger->setEntityManager($this->entityManager);
+        $this->executor->setPurger($this->purger);
 
-        $executor = new ORMExecutor($this->entityManager, $purger);
-
-        if ($input->getOption('class') === false) {
-            $loader->loadFromDirectory($this->path);
+        if (empty($input->getOptions())) {
+            $this->loader->loadFromDirectory($this->path);
         } else {
-            $loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
+            $this->loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
         }
 
-        $fixtures = $loader->getFixtures();
+        $fixtures = $this->loader->getFixtures();
 
-        $executor->execute($fixtures, true);
+        $this->executor->execute($fixtures, true);
 
         foreach ($fixtures as $fixture) {
-            $output->writeln(sprintf('<info>Executing %s </info>', get_class($fixture)));
+            $output->writeln(sprintf('<info>Executing %s </info>', $fixture::class));
         }
 
         $output->writeln("<info>Fixtures have been loaded.</info>");

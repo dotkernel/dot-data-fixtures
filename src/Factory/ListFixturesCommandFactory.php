@@ -1,16 +1,26 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Factory;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Dot\DataFixtures\Command\ListFixturesCommand;
+use Dot\DataFixtures\Exception\NotFoundException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+
+use function is_string;
 
 class ListFixturesCommandFactory
 {
     /**
-     * @param ContainerInterface $container
-     * @return ListFixturesCommand
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): ListFixturesCommand
     {
@@ -19,6 +29,11 @@ class ListFixturesCommandFactory
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
         }
 
-        return new ListFixturesCommand($path);
+        return new ListFixturesCommand(
+            $container->get(Loader::class),
+            $container->get(ORMPurger::class),
+            $container->get(ORMExecutor::class),
+            $path
+        );
     }
 }

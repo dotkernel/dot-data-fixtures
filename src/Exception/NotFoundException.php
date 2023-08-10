@@ -1,15 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Dot\DataFixtures\Exception;
 
 use Exception;
 
-/**
- * Class NotFoundException
- * @package Dot\DataFixtures\Exception
- */
 class NotFoundException extends Exception
 {
-
 }
