@@ -34,8 +34,8 @@ class ListFixturesCommandFactoryTest extends TestCase
 
     /**
      * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function testWithoutConfig(): void
     {
