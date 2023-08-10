@@ -64,7 +64,7 @@ class ExecuteFixturesCommandTest extends TestCase
 
         $command    = new ExecuteFixturesCommand($entityManager, $loader, $purger, $executor, $path);
         $reflection = new ReflectionMethod(ExecuteFixturesCommand::class, 'execute');
-        $result     = $reflection->invoke($command, new ArgvInput(), new BufferedOutput());
+        $result     = $reflection->invoke($command, new ArgvInput([], $command->getDefinition()), new BufferedOutput());
         $this->assertSame($result, Command::SUCCESS);
     }
 

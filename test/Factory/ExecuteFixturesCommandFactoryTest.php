@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace DotTest\DataFixtures\Factory;
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
@@ -61,9 +58,6 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
     {
         $this->container->method('has')->willReturnMap([
             [EntityManager::class, true],
-            [Loader::class, true],
-            [ORMPurger::class, true],
-            [ORMExecutor::class, true],
             ['config', true],
         ]);
         $this->container->method('get')
@@ -86,36 +80,20 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
         $connection    = $this->createMock(Connection::class);
         $entityManager = $this->createMock(EntityManager::class);
         $eventManager  = $this->createMock(EventManager::class);
-        $loader        = $this->createMock(Loader::class);
-        $purger        = $this->createMock(ORMPurger::class);
-        $executor      = $this->createMock(ORMExecutor::class);
         $connection->method('getConfiguration')->willReturn($configuration);
         $entityManager->method('getConnection')->willReturn($connection);
         $entityManager->method('getEventManager')->willReturn($eventManager);
-        $purger->method('getObjectManager')->willReturn($entityManager);
-        $loader->method('getFixtures')->willReturnMap([
-            [
-                [],
-            ],
-        ]);
+
         $this->container->method('has')->willReturnMap([
             [EntityManager::class, true],
-            [Loader::class, true],
-            [ORMPurger::class, true],
-            [ORMExecutor::class, true],
             ['config', true],
         ]);
 
         $this->container->method('get')->willReturnMap([
             [EntityManager::class, $entityManager],
-            [Loader::class, $loader],
-            [ORMPurger::class, $purger],
-            [ORMExecutor::class, $executor],
             ['config', ['doctrine' => ['fixtures' => getcwd() . '/data/doctrine/fixtures']]],
         ]);
 
-        $entityManager->method('getConnection')->willReturn($connection);
-        $connection->method('getConfiguration')->willReturn($configuration);
         $factory = (new ExecuteFixturesCommandFactory())($this->container);
         $this->assertInstanceOf(ExecuteFixturesCommand::class, $factory);
         $path = $this->container->get('config')['doctrine']['fixtures'];
