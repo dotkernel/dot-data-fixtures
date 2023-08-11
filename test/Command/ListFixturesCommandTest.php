@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace DotTest\DataFixtures\Command;
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\EventManager;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManager;
 use Dot\DataFixtures\Command\ListFixturesCommand;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
@@ -29,11 +23,9 @@ class ListFixturesCommandTest extends TestCase
      */
     public function testWillCreateCommand(): void
     {
-        $loader   = $this->createMock(Loader::class);
-        $purger   = $this->createMock(ORMPurger::class);
-        $executor = $this->createMock(ORMExecutor::class);
-        $path     = getcwd() . '/data/doctrine/fixtures';
-        $command  = new ListFixturesCommand($loader, $purger, $executor, $path);
+        $loader  = $this->createMock(Loader::class);
+        $path    = getcwd() . '/data/doctrine/fixtures';
+        $command = new ListFixturesCommand($loader, $path);
         $this->assertInstanceOf(ListFixturesCommand::class, $command);
     }
 
@@ -43,23 +35,15 @@ class ListFixturesCommandTest extends TestCase
      */
     public function testWillExecuteCommand(): void
     {
-        $configuration = $this->createMock(Configuration::class);
-        $connection    = $this->createMock(Connection::class);
-        $entityManager = $this->createMock(EntityManager::class);
-        $eventManager  = $this->createMock(EventManager::class);
-        $loader        = $this->createMock(Loader::class);
-        $purger        = $this->createMock(ORMPurger::class);
-        $executor      = $this->createMock(ORMExecutor::class);
-        $connection->method('getConfiguration')->willReturn($configuration);
-        $entityManager->method('getConnection')->willReturn($connection);
-        $entityManager->method('getEventManager')->willReturn($eventManager);
-        $purger->method('getObjectManager')->willReturn($entityManager);
+        $loader = $this->createMock(Loader::class);
         $loader->method('getFixtures')->willReturnMap([
-            [0 => []],
+            [
+                [],
+            ],
         ]);
         $path = getcwd() . '/data/doctrine/fixtures';
 
-        $command    = new ListFixturesCommand($loader, $purger, $executor, $path);
+        $command    = new ListFixturesCommand($loader, $path);
         $reflection = new ReflectionMethod(ListFixturesCommand::class, 'execute');
 
         $result = $reflection->invoke(
@@ -76,10 +60,8 @@ class ListFixturesCommandTest extends TestCase
     public function testFunctions(): void
     {
         $loader      = $this->createMock(Loader::class);
-        $purger      = $this->createMock(ORMPurger::class);
-        $executor    = $this->createMock(ORMExecutor::class);
         $path        = getcwd() . '/data/doctrine/fixtures';
-        $command     = new ListFixturesCommand($loader, $purger, $executor, $path);
+        $command     = new ListFixturesCommand($loader, $path);
         $defaultName = $command->getName();
         $description = $command->getDescription();
         $this->assertSame('fixtures:list', $defaultName);

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Dot\DataFixtures\Factory;
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Dot\DataFixtures\Command\ListFixturesCommand;
 use Dot\DataFixtures\Exception\NotFoundException;
 use Psr\Container\ContainerExceptionInterface;
@@ -30,9 +28,7 @@ class ListFixturesCommandFactory
         }
 
         return new ListFixturesCommand(
-            $container->get(Loader::class),
-            $container->get(ORMPurger::class),
-            $container->get(ORMExecutor::class),
+            new Loader(),
             $path
         );
     }

@@ -63,7 +63,7 @@ class ExecuteFixturesCommand extends Command
         $this->purger->setEntityManager($this->entityManager);
         $this->executor->setPurger($this->purger);
 
-        if (empty($input->getOptions())) {
+        if ($input->getOption('class') === false) {
             $this->loader->loadFromDirectory($this->path);
         } else {
             $this->loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
