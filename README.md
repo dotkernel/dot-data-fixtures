@@ -9,6 +9,7 @@
 [![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/1.0/LICENSE)
 
 [![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
+[![codecov](https://codecov.io/gh/dotkernel/dot-data-fixtures/graph/badge.svg?token=PGOXZOZAB0)](https://codecov.io/gh/dotkernel/dot-data-fixtures)
 
 [![SymfonyInsight](https://insight.symfony.com/projects/6bac345c-9548-47ec-ab4a-25773a98ed03/big.svg)](https://insight.symfony.com/projects/6bac345c-9548-47ec-ab4a-25773a98ed03)
 
