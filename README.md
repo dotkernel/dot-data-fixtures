@@ -1,7 +1,7 @@
 # dot-data-fixtures
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.1.2)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.1.3)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
