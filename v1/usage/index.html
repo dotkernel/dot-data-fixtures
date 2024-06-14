@@ -124,7 +124,7 @@
         <ol class="breadcrumb">
             
                 <li class="breadcrumb-item"><a href="https://docs.dotkernel.org/">Overview</a></li>
-                <li class="breadcrumb-item"><a href="https://docs.dotkernel.org/packages/">Packages</a></li>
+                
 
                 
                     <li class="breadcrumb-item"><a href="../..">dot-data-fixtures</a></li>
@@ -163,27 +163,27 @@
                 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="../overview/" class="subnavigation__link">Overview</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="../overview/" class="subnavigation__link">Overview</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="../installation/" class="subnavigation__link">Installation</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="../installation/" class="subnavigation__link">Installation</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="../configuration/" class="subnavigation__link">Configuration</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="../configuration/" class="subnavigation__link">Configuration</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Usage</a>
-    </li>
+<li class="subnavigation__list-item subnavigation__list-item--active">
+    <a href="./" class="subnavigation__link">Usage</a>
+</li>
 
                     
                 
@@ -425,6 +425,14 @@ class RoleLoader implements FixtureInterface
             let base_url = '../..',
                 project  = "packages",
                 siteName = 'dot-data-fixtures';
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll('.subnavigation__link').forEach(function(link) {
+                        if (link.getAttribute('href') === './') {
+                            link.parentNode.parentNode.classList.add('show');
+                        }
+                    });
+                });
         </script>
 <!--        -->
 <!--        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

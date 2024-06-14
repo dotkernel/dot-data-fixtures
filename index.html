@@ -124,7 +124,7 @@
         <ol class="breadcrumb">
             
                 <li class="breadcrumb-item"><a href="https://docs.dotkernel.org/">Overview</a></li>
-                <li class="breadcrumb-item"><a href="https://docs.dotkernel.org/packages/">Packages</a></li>
+                
 
                 
                     <li class="breadcrumb-item">dot-data-fixtures</li>
@@ -154,27 +154,27 @@
                 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v1/overview/" class="subnavigation__link">Overview</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="v1/overview/" class="subnavigation__link">Overview</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v1/installation/" class="subnavigation__link">Installation</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="v1/installation/" class="subnavigation__link">Installation</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v1/configuration/" class="subnavigation__link">Configuration</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="v1/configuration/" class="subnavigation__link">Configuration</a>
+</li>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v1/usage/" class="subnavigation__link">Usage</a>
-    </li>
+<li class="subnavigation__list-item ">
+    <a href="v1/usage/" class="subnavigation__link">Usage</a>
+</li>
 
                     
                 
@@ -333,6 +333,14 @@
             let base_url = '.',
                 project  = "packages",
                 siteName = 'dot-data-fixtures';
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll('.subnavigation__link').forEach(function(link) {
+                        if (link.getAttribute('href') === './') {
+                            link.parentNode.parentNode.classList.add('show');
+                        }
+                    });
+                });
         </script>
 <!--        -->
 <!--        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -358,5 +366,5 @@
 
 <!--
 MkDocs version : 1.6.0
-Build Date UTC : 2024-05-21 09:25:01.639024+00:00
+Build Date UTC : 2024-06-14 14:02:20.736836+00:00
 -->
