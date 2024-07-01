@@ -1,5 +1,10 @@
 # dot-data-fixtures
 
+> [!IMPORTANT]
+> dot-data-fixtures is a wrapper on top of [data-fixtures](https://github.com/doctrine/data-fixtures)
+>
+> ![OSS Lifecycle](https://img.shields.io/osslifecycle/doctrine/data-fixtures)
+
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
 ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.1.3)
 
