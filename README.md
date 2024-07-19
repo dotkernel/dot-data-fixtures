@@ -1,7 +1,7 @@
 # dot-data-fixtures
 
 > [!IMPORTANT]
-> dot-data-fixtures is a wrapper on top of [data-fixtures](https://github.com/doctrine/data-fixtures)
+> dot-data-fixtures is a wrapper on top of [doctrine/data-fixtures](https://github.com/doctrine/data-fixtures)
 >
 > ![OSS Lifecycle](https://img.shields.io/osslifecycle/doctrine/data-fixtures)
 
