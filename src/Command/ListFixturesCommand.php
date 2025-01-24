@@ -19,14 +19,11 @@ class ListFixturesCommand extends Command
     /** @var string */
     protected static $defaultName = 'fixtures:list';
 
-    protected Loader $loader;
-    private string $path;
-
-    public function __construct(Loader $loader, string $path)
-    {
+    public function __construct(
+        private readonly Loader $loader,
+        private readonly string $path,
+    ) {
         parent::__construct(self::$defaultName);
-        $this->loader = $loader;
-        $this->path   = $path;
     }
 
     protected function configure(): void

@@ -6,7 +6,7 @@
     "homepage": "https://github.com/dotkernel/dot-data-fixtures",
     "authors": [
         {
-            "name": "DotKernel Team",
+            "name": "Dotkernel Team",
             "email": "team@dotkernel.com"
         }
     ],
@@ -16,18 +16,17 @@
         "fixtures",
         "data-fixtures",
         "doctrine-data-fixtures",
-        "laminas",
-        "mezzio"
+        "laminas"
     ],
     "require": {
-        "php": "~8.2.0 || ~8.3.0",
-        "doctrine/data-fixtures": "^1.7",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "doctrine/data-fixtures": "^2.0",
         "doctrine/orm": "*",
         "symfony/console": "^7.0"
     },
     "require-dev": {
+        "laminas/laminas-coding-standard": "^3.0",
         "phpunit/phpunit": "^10.2",
-        "laminas/laminas-coding-standard": "^2.5",
         "vimeo/psalm": "^5.13"
     },
     "autoload": {
@@ -43,7 +42,8 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@test"
+            "@test",
+            "@static-analysis"
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",

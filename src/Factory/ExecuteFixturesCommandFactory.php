@@ -34,11 +34,11 @@ class ExecuteFixturesCommandFactory
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
         }
 
+        $entityManager = $container->get(EntityManager::class);
+
         return new ExecuteFixturesCommand(
-            $container->get(EntityManager::class),
             new Loader(),
-            new ORMPurger(),
-            new ORMExecutor($container->get(EntityManager::class)),
+            new ORMExecutor($entityManager, new ORMPurger($entityManager)),
             $path
         );
     }

@@ -13,7 +13,7 @@ nav:
       - Configuration: v1/configuration.md
       - Usage: v1/usage.md
 site_name: dot-data-fixtures
-site_description: "DotKernel's CLI interface for interacting with doctrine/data-fixtures"
+site_description: "Dotkernel's CLI interface for interacting with doctrine/data-fixtures"
 repo_url: "https://github.com/dotkernel/dot-data-fixtures"
 plugins:
   - search
