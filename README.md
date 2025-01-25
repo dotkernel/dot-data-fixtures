@@ -21,22 +21,24 @@ This package provides a CLI interface for interacting with doctrine/data-fixture
 ## Requirements
 
 - **PHP**: 8.2, 8.3 or 8.4
+- **doctrine/orm**: => 3.0
 - **doctrine/data-fixtures**: => 2.0
 
 ## Installation
 
 Run the following command in you project directory
 
-```bash
-$ composer require dotkernel/dot-data-fixtures
+```shell
+composer require dotkernel/dot-data-fixtures
 ```
 
 Next, register the package's ConfigProvider into your application config.
 
-```\Dot\DataFixtures\ConfigProvider::class,```
+```php
+\Dot\DataFixtures\ConfigProvider::class,
+```
 
-In ``doctrine.global.php`` (or your custom doctrine config file) add a new key `fixtures`, in the `doctrine`
-array, the value should be a valid path to a folder where your fixtures can be found.
+In `doctrine.global.php` (or your custom doctrine config file) add a new key `fixtures`, in the `doctrine` array, the value should be a valid path to a folder where your fixtures can be found.
 
 **Make sure the path is valid before proceeding to the next step.**
 
@@ -83,36 +85,38 @@ ConsoleRunner::run(
 
 **List fixtures command** - will list all the available fixtures, by order of execution.
 
-````bash
-php bin/doctrine fixtures:list
+````shell
+php ./bin/doctrine fixtures:list
 ````
 
 **Execute fixtures command** - this command will execute all or one fixture.
 
-- To execute all the fixtures run :
+To execute all the fixtures run:
 
-```bash
-php bin/doctrine fixtures:execute
+```shell
+php ./bin/doctrine fixtures:execute
 ```
 
-- To execute a specific fixture run :
+To execute a specific fixture run:
 
-```bash
-php bin/doctrine fixtures:execute --class=RoleLoader
+```shell
+php ./bin/doctrine fixtures:execute --class=RoleLoader
 ```
 
 ## Creating fixtures
 
-When creating a new fixture we have 2 requirements :
+When creating a new fixture we have 2 requirements:
 
-- Fixtures should be created in the folder we configured earlier. ``data/doctrine/fixtures``
-- Fixtures should implement ``FixtureInterface`` and have a ``load`` method.
+- Fixtures should be created in the folder we configured earlier: `data/doctrine/fixtures`
+- Fixtures should implement `FixtureInterface` and have a `load` method.
 - Create a new php file and copy the below code-block.
 
 ### Example
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace Frontend\Fixtures;
 
