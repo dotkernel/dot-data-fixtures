@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <meta name="description" content="DotKernel's CLI interface for interacting with doctrine/data-fixtures">
+        <meta name="description" content="Dotkernel's CLI interface for interacting with doctrine/data-fixtures">
         
         
 
@@ -60,7 +60,7 @@
                         </li>
                         
                         <li class="dropdown-item ">
-                            <a href="https://docs.dotkernel.org/admin/" class="nav-link d-flex gap-4 align-items-center">
+                            <a href="https://docs.dotkernel.org/admin-documentation/" class="nav-link d-flex gap-4 align-items-center">
                                 <img alt="DotKernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
                                 <div>
                                     <span class="fw-bold d-block">Admin</span>
@@ -70,11 +70,21 @@
                         </li>
                         
                         <li class="dropdown-item ">
-                            <a href="https://docs.dotkernel.org/frontend/" class="nav-link d-flex gap-4 align-items-center">
+                            <a href="https://docs.dotkernel.org/frontend-documentation/" class="nav-link d-flex gap-4 align-items-center">
                                 <img alt="DotKernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
                                 <div>
                                     <span class="fw-bold d-block">Frontend</span>
                                     <span>DotKernel Frontend application</span>
+                                </div>
+                            </a>
+                        </li>
+                        
+                        <li class="dropdown-item ">
+                            <a href="https://docs.dotkernel.org/light-documentation/" class="nav-link d-flex gap-4 align-items-center">
+                                <img alt="DotKernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
+                                <div>
+                                    <span class="fw-bold d-block">Light</span>
+                                    <span>DotKernel Light application</span>
                                 </div>
                             </a>
                         </li>
@@ -240,30 +250,30 @@
 
     <h1 id="configuration">Configuration</h1>
 <h2 id="register-configprovider">Register ConfigProvider</h2>
-<p>After installation, register the package's ConfigProvider into your application config.</p>
+<p>After installation, register the package's ConfigProvider by adding the below line into your application config:</p>
 <p><code>\Dot\DataFixtures\ConfigProvider::class,</code></p>
 <p>In <code>doctrine.global.php</code> (or your custom doctrine config file) add a new key <code>fixtures</code>, in the <code>doctrine</code> array, the value should be a valid path to a folder where your fixtures can be found.</p>
 <p>Make sure the path is valid before proceeding to the next step.</p>
 <h3 id="example">Example</h3>
-<pre class="codehilite"><code>return [
+<pre class="highlight"><code class="language-php">return [
     'dependencies' =&gt; [ ... ],
         'doctrine' =&gt; [
         ...,
         'fixtures' =&gt; getcwd() . '/data/doctrine/fixtures',
     ],
-];
-</code></pre>
-
+];</code></pre>
 <h2 id="registering-commands">Registering commands</h2>
 <p>The last step is to register the commands. We can register the commands to work with the default CLI that doctrine provides us. Create a new php file <code>bin/doctrine</code> (if you don't already have this file feel free to copy it from the below example)</p>
-<pre class="codehilite"><code>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
+
+declare(strict_types=1);
 
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
 require_once 'vendor/autoload.php';
 
-$container = require getcwd() . '/config/container.php' ;
+$container = require getcwd() . '/config/container.php';
 
 $entityManager = $container-&gt;get(\Doctrine\ORM\EntityManager::class);
 
@@ -275,19 +285,17 @@ $commands = [
 ConsoleRunner::run(
     new SingleManagerProvider($entityManager),
     $commands
-);
-</code></pre>
+);</code></pre>
 
 
 
 
     <nav>
-    <ul class="page-nav hidden-print">
+    <ul class="list-unstyled page-nav row w-100 mt-5 mb-3 pt-5 pb-3">
         
-        <li class="page-nav__item">
+        <li class="col text-nowrap text-md-start">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../installation/">
-                    <small class="page-nav__label">Previous</small>
                     <i class="bi bi-chevron-left"></i>
                     Installation
                 </a>
@@ -295,10 +303,9 @@ ConsoleRunner::run(
         </li>
 
         
-        <li class="page-nav__item">
+        <li class="col text-nowrap text-md-end pe-0">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../usage/">
-                    <small class="page-nav__label">Next</small>
                     Usage
                     <i class="bi bi-chevron-right"></i>
                 </a>
@@ -317,77 +324,90 @@ ConsoleRunner::run(
         
         <footer class="footer">
     <div class="container">
+        <hr class="mb-5" />
 
         <div class="row">
             <div class="col-md-9">
-                <div class="footer_head">
-                    <p>DotKernel</p>
-                </div>
-
                 <div class="row">
-                    <div class="col-md-6 dk_widget">
-                        <p>DotKernel Frontend</p>
-                        <a href="https://docs.dotkernel.org/frontend/" target="_blank">
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">API</p>
+
+                        <a href="https://docs.dotkernel.org/api-documentation/">
                             <i class="bi bi-arrow-return-right"></i>
-                            DotKernel web starter project suitable for frontend applications
+                            Dotkernel web starter project suitable for building RESTful APIs
                         </a>
                     </div>
 
-                    <div class="col-md-6 dk_widget">
-                        <p>DotKernel API</p>
-                        <a href="https://docs.dotkernel.org/api-documentation/" target="_blank">
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">Admin</p>
+
+                        <a href="https://docs.dotkernel.org/admin-documentation/">
                             <i class="bi bi-arrow-return-right"></i>
-                            DotKernel web starter project suitable for building RESTful APIs
+                            Dotkernel web starter project suitable for admin applications
                         </a>
                     </div>
 
-                    <div class="col-md-6 dk_widget">
-                        <p>DotKernel Admin</p>
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">Frontend</p>
 
-                        <a href="https://docs.dotkernel.org/admin/" target="_blank">
+                        <a href="https://docs.dotkernel.org/frontend-documentation/">
                             <i class="bi bi-arrow-return-right"></i>
-                            DotKernel web starter project suitable for admin applications
+                            Dotkernel web starter project suitable for frontend applications
                         </a>
                     </div>
 
-                    <div class="col-md-6 dk_widget">
-                        <p>DotKernel Packages</p>
-                        <a href="https://docs.dotkernel.org/packages/" target="_blank">
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">Light</p>
+
+                        <a href="https://docs.dotkernel.org/light-documentation/">
                             <i class="bi bi-arrow-return-right"></i>
-                            DotKernel packages offering a wide range of tools
+                            Dotkernel web starter project suitable for generating a simple website
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">Dotkernel Packages</p>
+
+                        <a href="https://docs.dotkernel.org/packages/">
+                            <i class="bi bi-arrow-return-right"></i>
+                            Dotkernel packages offering a wide range of tools
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 dk_widget">
+                        <p class="ms-0">Development environment</p>
+
+                        <a href="https://docs.dotkernel.org/development/">
+                            <i class="bi bi-arrow-return-right"></i>
+                            Install PHP, Apache, MariaDB, Composer, PhpMyAdmin, Node.js and Git on WSL2
                         </a>
                     </div>
                 </div>
-
             </div>
 
-            <div class="col-md-3">
-                <div class="footer_head">
-                    <p>Support</p>
-                </div>
-                <ul class="support__list">
-                    <li class="support__list-item">
+            <div class="col-md-3 pt-3 mt-1">
+                <ul class="support__list row">
+                    <li class="support__list-item col-lg-6 mb-md-3">
                         <a href="https://github.com/dotkernel" class="support__link" title="GitHub" target="_blank">
                             <i class="bi bi-github"></i> GitHub
                         </a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://dotkernel.slack.com" class="support__link" title="Slack" target="_blank">
+                    <li class="support__list-item col-lg-6 mb-md-3">
+                        <a href="https://dotkernel.slack.com" class="support__link" title="Chat" target="_blank">
                             <i class="bi bi-slack"></i> Slack
                         </a>
                     </li>
-                    <li class="support__list-item">
+                    <li class="support__list-item col-lg-6 mb-md-3">
                         <a href="https://twitter.com/dotkernel" class="support__link" title="X (Twitter)" target="_blank">
                             <i class="bi bi-twitter-x"></i> Twitter
                         </a>
                     </li>
-
-                    <li class="support__list-item">
+                    <li class="support__list-item col-lg-6 mb-md-3">
                         <a href="https://www.dotkernel.com/blog/" class="support__link" title="Blog" target="_blank">
                             <i class="bi bi-file-post"></i> Blog
                         </a>
                     </li>
-                    <li class="support__list-item">
+                    <li class="support__list-item col-lg-6 mb-md-3">
                         <a href="https://www.dotkernel.com/feed/" class="support__link" title="Blog feed" target="_blank">
                             <i class="bi bi-rss-fill"></i> Feed
                         </a>
@@ -396,8 +416,10 @@ ConsoleRunner::run(
             </div>
         </div>
 
+        <hr class="mt-5" />
+
         <div class="footer_copy">
-            &#169; 2024 by <a href="https://www.dotkernel.com/" target="_blank">DotKernel</a> a collection of PSR-7 Middleware applications and libraries
+            &#169; Copyright Dotkernel 2024. All rights reserved.
         </div>
     </div>
 </footer>
