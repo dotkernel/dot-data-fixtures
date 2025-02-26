@@ -21,7 +21,6 @@ Documentation is available at: https://docs.dotkernel.org/dot-data-fixtures/.
 [![codecov](https://codecov.io/gh/dotkernel/dot-data-fixtures/graph/badge.svg?token=PGOXZOZAB0)](https://codecov.io/gh/dotkernel/dot-data-fixtures)
 [![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
 
-
 This package provides a CLI interface for interacting with doctrine/data-fixtures.
 
 **Executing fixtures will **append** data to the tables.**
