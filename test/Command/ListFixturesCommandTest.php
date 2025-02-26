@@ -26,7 +26,7 @@ class ListFixturesCommandTest extends TestCase
         $loader  = $this->createMock(Loader::class);
         $path    = getcwd() . '/data/doctrine/fixtures';
         $command = new ListFixturesCommand($loader, $path);
-        $this->assertInstanceOf(ListFixturesCommand::class, $command);
+        $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$command]);
     }
 
     /**

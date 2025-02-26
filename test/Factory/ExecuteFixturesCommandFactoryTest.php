@@ -95,7 +95,7 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
         ]);
 
         $factory = (new ExecuteFixturesCommandFactory())($this->container);
-        $this->assertInstanceOf(ExecuteFixturesCommand::class, $factory);
+        $this->assertContainsOnlyInstancesOf(ExecuteFixturesCommand::class, [$factory]);
         $path = $this->container->get('config')['doctrine']['fixtures'];
         $this->assertSame(getcwd() . '/data/doctrine/fixtures', $path);
     }

@@ -37,7 +37,7 @@ class ExecuteFixturesCommandTest extends TestCase
         $executor      = $executor->newInstance($entityManager);
 
         $command = new ExecuteFixturesCommand($loader, $executor, $path);
-        $this->assertInstanceOf(ExecuteFixturesCommand::class, $command);
+        $this->assertContainsOnlyInstancesOf(ExecuteFixturesCommand::class, [$command]);
     }
 
     /**

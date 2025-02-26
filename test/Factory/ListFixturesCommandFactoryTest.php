@@ -42,7 +42,7 @@ class ListFixturesCommandFactoryTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Key `fixtures` not found in doctrine configuration.');
         $factory = (new ListFixturesCommandFactory())($this->container);
-        $this->assertInstanceOf(ListFixturesCommand::class, $factory);
+        $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$factory]);
     }
 
     /**
@@ -56,7 +56,7 @@ class ListFixturesCommandFactoryTest extends TestCase
             ['config', ['doctrine' => ['fixtures' => getcwd() . '/data/doctrine/fixtures']]],
         ]);
         $factory = (new ListFixturesCommandFactory())($this->container);
-        $this->assertInstanceOf(ListFixturesCommand::class, $factory);
+        $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$factory]);
         $path = $this->container->get('config')['doctrine']['fixtures'];
         $this->assertSame(getcwd() . '/data/doctrine/fixtures', $path);
     }
