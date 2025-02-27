@@ -1,6 +1,7 @@
 # Overview
 
-> [!IMPORTANT]
+Dotkernel's CLI interface for interacting with doctrine/data-fixtures.
+
 > dot-data-fixtures is a wrapper on top of [data-fixtures](https://github.com/doctrine/data-fixtures)
 
 `dot-data-fixtures` provides a CLI interface for interacting with doctrine/data-fixtures.
