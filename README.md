@@ -1,6 +1,6 @@
 # dot-data-fixtures
 
-> [!IMPORTANT]
+`dot-data-fixtures` provides a CLI interface for interacting with doctrine/data-fixtures.
 > dot-data-fixtures is a wrapper on top of [doctrine/data-fixtures](https://github.com/doctrine/data-fixtures)
 
 ## Documentation
