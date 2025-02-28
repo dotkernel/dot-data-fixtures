@@ -13,7 +13,7 @@ class NotFoundExceptionTest extends TestCase
     public function testCreate(): void
     {
         $exception = new NotFoundException();
-        $this->assertInstanceOf(NotFoundException::class, $exception);
-        $this->assertInstanceOf(Exception::class, $exception);
+        $this->assertContainsOnlyInstancesOf(NotFoundException::class, [$exception]);
+        $this->assertContainsOnlyInstancesOf(Exception::class, [$exception]);
     }
 }

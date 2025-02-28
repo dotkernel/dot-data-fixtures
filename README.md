@@ -1,10 +1,17 @@
 # dot-data-fixtures
 
-> [!IMPORTANT]
+`dot-data-fixtures` provides a CLI interface for interacting with doctrine/data-fixtures.
+
 > dot-data-fixtures is a wrapper on top of [doctrine/data-fixtures](https://github.com/doctrine/data-fixtures)
 
+## Documentation
+
+Documentation is available at: https://docs.dotkernel.org/dot-data-fixtures/.
+
+## Badges
+
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.3.1)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.4.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
@@ -13,6 +20,7 @@
 
 [![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/dotkernel/dot-data-fixtures/graph/badge.svg?token=PGOXZOZAB0)](https://codecov.io/gh/dotkernel/dot-data-fixtures)
+[![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
 
 This package provides a CLI interface for interacting with doctrine/data-fixtures.
 
