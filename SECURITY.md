@@ -5,7 +5,7 @@
 
 | Version | Supported          | PHP Version                                                                                                       |
 |---------|--------------------|-------------------------------------------------------------------------------------------------------------------|
-| 1.x     | :white_check_mark: | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.0.0) |
+| 1.x     | :white_check_mark: | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.5.0) |
 
 
 ## Reporting Potential Security Issues

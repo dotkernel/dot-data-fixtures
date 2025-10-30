@@ -12,7 +12,7 @@ php ./bin/doctrine fixtures:list
 
 ### Execute fixtures command
 
-This command will execute all or one fixture.
+This command will execute one or all fixtures.
 
 To execute all the fixtures, run:
 
@@ -28,11 +28,11 @@ php ./bin/doctrine fixtures:execute --class=RoleLoader
 
 ## Creating fixtures
 
-When creating a new fixture we have 2 requirements:
+When creating a new fixture, we have two requirements:
 
 - Fixtures should be created in the folder we configured earlier, `data/doctrine/fixtures`
 - Fixtures should implement `FixtureInterface` and have a `load` method.
-- Create a new php file and copy the below code-block.
+- Create a new PHP file and copy the below code-block.
 
 ### Example
 
@@ -70,7 +70,7 @@ class RoleLoader implements FixtureInterface
 
 ## Ordering fixtures
 
-Fixtures can we ordered using 2 methods:
+Fixtures can be ordered:
 
 - by order
 - by dependencies
