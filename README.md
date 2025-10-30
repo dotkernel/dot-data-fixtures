@@ -11,7 +11,7 @@ Documentation is available at: https://docs.dotkernel.org/dot-data-fixtures/.
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.4.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.5.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
@@ -34,7 +34,7 @@ This package provides a CLI interface for interacting with doctrine/data-fixture
 
 ## Installation
 
-Run the following command in you project directory
+Run the following command in your project directory
 
 ```shell
 composer require dotkernel/dot-data-fixtures
@@ -91,21 +91,21 @@ ConsoleRunner::run(
 
 ## Usage
 
-**List fixtures command** - will list all the available fixtures, by order of execution.
+**List fixtures command**: will list all the available fixtures, by order of execution.
 
 ````shell
 php ./bin/doctrine fixtures:list
 ````
 
-**Execute fixtures command** - this command will execute all or one fixture.
+**Execute fixtures command**: this command will execute one or all fixtures.
 
-To execute all the fixtures run:
+To execute all the fixtures, run:
 
 ```shell
 php ./bin/doctrine fixtures:execute
 ```
 
-To execute a specific fixture run:
+To execute a specific fixture, run:
 
 ```shell
 php ./bin/doctrine fixtures:execute --class=RoleLoader
@@ -113,11 +113,11 @@ php ./bin/doctrine fixtures:execute --class=RoleLoader
 
 ## Creating fixtures
 
-When creating a new fixture we have 2 requirements:
+When creating a new fixture, we have two requirements:
 
 - Fixtures should be created in the folder we configured earlier: `data/doctrine/fixtures`
 - Fixtures should implement `FixtureInterface` and have a `load` method.
-- Create a new php file and copy the below code-block.
+- Create a new PHP file and copy the below code-block.
 
 ### Example
 
@@ -157,7 +157,7 @@ class RoleLoader implements FixtureInterface
 
 ## Ordering fixtures
 
-Fixtures can we ordered using 2 methods :
+Fixtures can be ordered:
 
 - by order
 - by dependencies
