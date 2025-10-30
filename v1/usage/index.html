@@ -27,9 +27,9 @@
         <link rel="stylesheet" href="https://docs.dotkernel.org/css/bootstrap.css">
         <link rel="stylesheet" href="https://docs.dotkernel.org/css/bootstrap-icons.min.css">
         <link rel="stylesheet" href="https://docs.dotkernel.org/css/docs.css">
-        <script src="https://docs.dotkernel.org//js/bootstrap.js" defer></script>
-        <script src="https://docs.dotkernel.org//js/docs.js" defer></script>
-        <script src="https://docs.dotkernel.org//js/scripts.js" defer></script>
+        <script src="https://docs.dotkernel.org/js/bootstrap.js" defer></script>
+        <script src="https://docs.dotkernel.org/js/docs.js" defer></script>
+        <script src="https://docs.dotkernel.org/js/scripts.js" defer></script>
     </head>
     <body data-bs-spy="scroll" data-bs-target=".toc" data-bs-offset="100">
 
@@ -51,60 +51,72 @@
                         
                         <li class="dropdown-item ">
                             <a href="https://docs.dotkernel.org/api-documentation/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">API</span>
-                                    <span>Dotkernel API</span>
                                 </div>
                             </a>
                         </li>
                         
                         <li class="dropdown-item ">
                             <a href="https://docs.dotkernel.org/admin-documentation/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">Admin</span>
-                                    <span>Dotkernel Admin</span>
                                 </div>
                             </a>
                         </li>
                         
                         <li class="dropdown-item ">
                             <a href="https://docs.dotkernel.org/frontend-documentation/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">Frontend</span>
-                                    <span>Dotkernel Frontend</span>
                                 </div>
                             </a>
                         </li>
                         
                         <li class="dropdown-item ">
                             <a href="https://docs.dotkernel.org/light-documentation/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">Light</span>
-                                    <span>Dotkernel Light</span>
                                 </div>
                             </a>
                         </li>
                         
-                        <li class="dropdown-item bg-light">
+                        <li class="dropdown-item ">
+                            <a href="https://docs.dotkernel.org/queue-documentation/" class="nav-link d-flex gap-4 align-items-center">
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
+                                    <span class="fw-bold d-block">Queue</span>
+                                </div>
+                            </a>
+                        </li>
+                        
+                        <li class="dropdown-item bg-dark-subtle">
                             <a href="https://docs.dotkernel.org/packages/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">Packages</span>
-                                    <span>Dotkernel packages</span>
                                 </div>
                             </a>
                         </li>
                         
                         <li class="dropdown-item ">
                             <a href="https://docs.dotkernel.org/development/" class="nav-link d-flex gap-4 align-items-center">
-                                <img alt="Dotkernel Logo" class="d-inline-block align-text-top" height="50" src="https://docs.dotkernel.org/img/dk_logomark.svg" width="45" />
-                                <div>
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
                                     <span class="fw-bold d-block">Development</span>
-                                    <span>WSL2 Development Environment</span>
+                                </div>
+                            </a>
+                        </li>
+                        
+                        <li class="dropdown-item ">
+                            <a href="https://docs.dotkernel.org/headless-documentation/" class="nav-link d-flex gap-4 align-items-center">
+                                <i class="bi bi-arrow-return-right text-primary"></i>
+                                <div class="py-1">
+                                    <span class="fw-bold d-block">Headless Platform</span>
                                 </div>
                             </a>
                         </li>
@@ -132,6 +144,8 @@
                 </li>
                 <li class="nav-item">
                     
+    
+
                 </li>
             </ul>
         </div>
@@ -258,17 +272,17 @@
 <p>This command will list all the available fixtures, by order of execution.</p>
 <pre class="highlight"><code class="language-shell">php ./bin/doctrine fixtures:list</code></pre>
 <h3 id="execute-fixtures-command">Execute fixtures command</h3>
-<p>This command will execute all or one fixture.</p>
+<p>This command will execute one or all fixtures.</p>
 <p>To execute all the fixtures, run:</p>
 <pre class="highlight"><code class="language-shell">php ./bin/doctrine fixtures:execute</code></pre>
 <p>To execute a specific fixture, run:</p>
 <pre class="highlight"><code class="language-shell">php ./bin/doctrine fixtures:execute --class=RoleLoader</code></pre>
 <h2 id="creating-fixtures">Creating fixtures</h2>
-<p>When creating a new fixture we have 2 requirements:</p>
+<p>When creating a new fixture, we have two requirements:</p>
 <ul>
 <li>Fixtures should be created in the folder we configured earlier, <code>data/doctrine/fixtures</code></li>
 <li>Fixtures should implement <code>FixtureInterface</code> and have a <code>load</code> method.</li>
-<li>Create a new php file and copy the below code-block.</li>
+<li>Create a new PHP file and copy the below code-block.</li>
 </ul>
 <h3 id="example">Example</h3>
 <pre class="highlight"><code class="language-php">&lt;?php
@@ -301,7 +315,7 @@ class RoleLoader implements FixtureInterface
     }
 }</code></pre>
 <h2 id="ordering-fixtures">Ordering fixtures</h2>
-<p>Fixtures can we ordered using 2 methods:</p>
+<p>Fixtures can be ordered:</p>
 <ul>
 <li>by order</li>
 <li>by dependencies</li>
@@ -429,6 +443,11 @@ class RoleLoader implements FixtureInterface
                             <i class="bi bi-rss-fill"></i> Feed
                         </a>
                     </li>
+                    <li class="support__list-item col-lg-6 mb-md-3">
+                        <a href="https://github.com/orgs/dotkernel/discussions" class="support__link" title="Blog feed" target="_blank">
+                            <i class="bi bi-chat-left-text"></i> Discussions
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -436,7 +455,7 @@ class RoleLoader implements FixtureInterface
         <hr class="mt-5" />
 
         <div class="footer_copy">
-            &#169; Copyright Dotkernel 2024. All rights reserved.
+            &#169; Copyright Dotkernel <span id="current-year"></span>. All rights reserved.
         </div>
     </div>
 </footer>
