@@ -60,6 +60,9 @@
         }
     },
     "conflict": {
+        "doctrine/dbal": "<3.10.2",
+        "doctrine/event-manager": "<2.1.0",
+        "doctrine/persistence": "<3.4.1 || >=4.0,<4.0.1",
         "symfony/string": "<6.4.3 || >=7.0,<7.0.3"
     }
 }
