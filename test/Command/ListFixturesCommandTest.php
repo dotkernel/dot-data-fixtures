@@ -6,65 +6,50 @@ namespace DotTest\DataFixtures\Command;
 
 use Doctrine\Common\DataFixtures\Loader;
 use Dot\DataFixtures\Command\ListFixturesCommand;
-use PHPUnit\Framework\MockObject\Exception;
+use DotTest\DataFixtures\Fixtures\Data\RoleFixture;
+use DotTest\DataFixtures\Fixtures\Data\Sub\NestedFixture;
+use DotTest\DataFixtures\Fixtures\EntityManagerFactory;
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
-use ReflectionMethod;
+use ReflectionClass;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Tester\CommandTester;
 
-use function getcwd;
-
+#[CoversClass(ListFixturesCommand::class)]
 class ListFixturesCommandTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
-    public function testWillCreateCommand(): void
+    public function testNameAndDescriptionComeFromAttribute(): void
     {
-        $loader  = $this->createMock(Loader::class);
-        $path    = getcwd() . '/data/doctrine/fixtures';
-        $command = new ListFixturesCommand($loader, $path);
-        $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$command]);
+        $command    = new ListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH);
+        $attributes = (new ReflectionClass(ListFixturesCommand::class))->getAttributes(AsCommand::class);
+
+        $this->assertCount(1, $attributes);
+        $this->assertSame(ListFixturesCommand::NAME, $attributes[0]->newInstance()->name);
+        $this->assertSame('fixtures:list', $command->getName());
+        $this->assertSame('List all available fixtures.', $command->getDescription());
     }
 
-    /**
-     * @throws Exception
-     * @throws ReflectionException
-     */
-    public function testWillExecuteCommand(): void
+    public function testListsEveryFixtureWithARunnableCommand(): void
     {
-        $loader = $this->createMock(Loader::class);
-        $loader->method('getFixtures')->willReturnMap([
-            [
-                [],
-            ],
-        ]);
-        $path = getcwd() . '/data/doctrine/fixtures';
+        $tester = new CommandTester(new ListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH));
 
-        $command    = new ListFixturesCommand($loader, $path);
-        $reflection = new ReflectionMethod(ListFixturesCommand::class, 'execute');
+        $this->assertSame(Command::SUCCESS, $tester->execute([]));
 
-        $result = $reflection->invoke(
-            $command,
-            new ArgvInput(),
-            new BufferedOutput()
-        );
-        $this->assertSame($result, Command::SUCCESS);
+        $display = $tester->getDisplay();
+        $this->assertStringContainsString(RoleFixture::class, $display);
+        $this->assertStringContainsString(NestedFixture::class, $display);
+        $this->assertStringContainsString('fixtures:execute --class=RoleFixture ', $display);
+        $this->assertStringContainsString('fixtures:execute --class=Sub/NestedFixture ', $display);
+        $this->assertMatchesRegularExpression('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/', $display);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testFunctions(): void
+    public function testMissingFixturesDirectoryThrows(): void
     {
-        $loader      = $this->createMock(Loader::class);
-        $path        = getcwd() . '/data/doctrine/fixtures';
-        $command     = new ListFixturesCommand($loader, $path);
-        $defaultName = $command->getName();
-        $description = $command->getDescription();
-        $this->assertSame('fixtures:list', $defaultName);
-        $this->assertSame('List all available fixtures.', $description);
+        $tester = new CommandTester(new ListFixturesCommand(new Loader(), __DIR__ . '/does-not-exist'));
+
+        $this->expectException(InvalidArgumentException::class);
+        $tester->execute([]);
     }
 }

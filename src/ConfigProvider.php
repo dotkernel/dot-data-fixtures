@@ -11,6 +11,9 @@ use Dot\DataFixtures\Factory\ListFixturesCommandFactory;
 
 class ConfigProvider
 {
+    /**
+     * @return array{dependencies: array{factories: array<class-string, class-string>}}
+     */
     public function __invoke(): array
     {
         return [
@@ -18,6 +21,9 @@ class ConfigProvider
         ];
     }
 
+    /**
+     * @return array{factories: array<class-string, class-string>}
+     */
     public function getDependencies(): array
     {
         return [
