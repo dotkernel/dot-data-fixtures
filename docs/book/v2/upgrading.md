@@ -11,6 +11,7 @@ composer require dotkernel/dot-data-fixtures:^2.0
 | Change | Symptom | Fix |
 | --- | --- | --- |
 | PHP 8.2 is no longer supported | Composer refuses to install 2.0 on PHP 8.2 | Upgrade to PHP 8.3 or later, or stay on 1.x |
+| `symfony/console` 7.0.0 to 7.0.2 and `symfony/string` 6.4.0 to 6.4.2 and 7.0.0 to 7.0.2 are no longer allowed | Composer refuses to install 2.0 while one of them is pinned | Update them (`composer update symfony/console symfony/string`) |
 | The protected static `$defaultName` property was removed from both commands | A subclass that reads `self::$defaultName` or `static::$defaultName` fails with "Access to undeclared static property" | Use `ExecuteFixturesCommand::NAME` or `ListFixturesCommand::NAME` |
 | Command names and descriptions come from `#[AsCommand]` | Code that calls `Command::getDefaultName()` fails on Symfony Console 8, where that method was removed | Use the `NAME` constants |
 | `--class` requires a value | `fixtures:execute --class` without a value prints `The "--class" option requires a value.` | Pass a fixture name, or omit the option to run all fixtures |

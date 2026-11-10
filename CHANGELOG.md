@@ -9,6 +9,7 @@
 - `fixtures:execute` prints an error and returns exit code `1` when a fixture cannot be loaded, instead of throwing
 - `fixtures:execute` prints the "Executing" lines before running the fixtures
 - `ExecuteFixturesCommandFactory` no longer creates an unused `ORMPurger`
+- Minimum `symfony/console` raised to 7.0.3, and `symfony/string` below 6.4.3 and from 7.0.0 to 7.0.2 marked as conflicting. Those releases trigger "implicitly nullable" deprecations on PHP 8.4+
 - Bumped `phpunit/phpunit` to `^12`; strict `phpunit.xml` (fail on deprecations, notices, warnings and risky tests)
 - PHPStan level raised from 5 to 8
 - Tests use real fixtures, a real `Loader` and an in-memory SQLite entity manager instead of mocks
@@ -20,6 +21,7 @@
 - Support for `symfony/console` 8
 - `ExecuteFixturesCommand::NAME` and `ListFixturesCommand::NAME` constants
 - `psr/container` declared as a direct requirement
+- `ext-pdo_sqlite` as a development requirement, for the SQLite tests
 - Upgrade guide from 1.x
 - `.gitattributes` to keep line endings LF
 

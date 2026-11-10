@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 
+use function sys_get_temp_dir;
 use function version_compare;
 
 use const PHP_VERSION_ID;
@@ -26,10 +27,14 @@ final class EntityManagerFactory
     {
         $config = new Configuration();
         $config->setMetadataDriverImpl(new AttributeDriver([__DIR__ . '/Entity']));
-        // ORM 3.5+ on PHP 8.4+ needs native lazy objects; older ORM 3.x uses symfony/var-exporter proxies instead.
+        // ORM 3.5+ on PHP 8.4+ needs native lazy objects; otherwise ORM generates proxy classes,
+        // and before ORM 3.5 the ProxyFactory requires a proxy directory and namespace (as ORMSetup sets them).
         $ormVersion = InstalledVersions::getVersion('doctrine/orm') ?? '0';
         if (PHP_VERSION_ID >= 80400 && version_compare($ormVersion, '3.5.0', '>=')) {
             $config->enableNativeLazyObjects(true);
+        } else {
+            $config->setProxyDir(sys_get_temp_dir());
+            $config->setProxyNamespace('DotTestDataFixturesProxies');
         }
 
         $connection    = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true], $config);

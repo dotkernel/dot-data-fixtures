@@ -40,7 +40,7 @@ Upgrading from 1.x? See the [upgrade guide](https://docs.dotkernel.org/dot-data-
 - **PHP**: 8.3, 8.4, 8.5 or 8.6
 - **doctrine/orm**: >= 3.0
 - **doctrine/data-fixtures**: >= 2.0
-- **symfony/console**: 7.x or 8.x
+- **symfony/console**: 7.0.3 or later, or 8.x
 
 ## Installation
 
