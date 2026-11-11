@@ -32,8 +32,6 @@ class ListFixturesCommand extends Command
     /**
      * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
      * the name comes from #[AsCommand] and the constructor.
-     *
-     * @var string
      */
     protected static string $defaultName = self::NAME;
 
