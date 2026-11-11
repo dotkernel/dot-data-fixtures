@@ -9,10 +9,12 @@ use Dot\DataFixtures\Command\ListFixturesCommand;
 use DotTest\DataFixtures\Fixtures\Data\RoleFixture;
 use DotTest\DataFixtures\Fixtures\Data\Sub\NestedFixture;
 use DotTest\DataFixtures\Fixtures\EntityManagerFactory;
+use DotTest\DataFixtures\Fixtures\Legacy\LegacyListFixturesCommand;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -29,6 +31,30 @@ class ListFixturesCommandTest extends TestCase
         $this->assertSame(ListFixturesCommand::NAME, $attributes[0]->newInstance()->name);
         $this->assertSame('fixtures:list', $command->getName());
         $this->assertSame('List all available fixtures.', $command->getDescription());
+    }
+
+    public function testDefaultNamePropertyKeepsItsVersion1Shape(): void
+    {
+        $property = new ReflectionProperty(ListFixturesCommand::class, 'defaultName');
+
+        $this->assertTrue($property->isProtected());
+        $this->assertTrue($property->isStatic());
+        $this->assertFalse($property->hasType());
+        $this->assertSame(ListFixturesCommand::NAME, $property->getValue());
+    }
+
+    public function testVersion1SubclassRedeclaringDefaultNameStillWorks(): void
+    {
+        $command = new LegacyListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH);
+
+        $this->assertSame(
+            'app:fixtures:list',
+            (new ReflectionProperty(LegacyListFixturesCommand::class, 'defaultName'))->getValue()
+        );
+        // As in 1.x, the parent uses self::$defaultName, so the command keeps its name.
+        $this->assertSame(ListFixturesCommand::NAME, $command->getName());
+        $this->assertSame(ListFixturesCommand::DESCRIPTION, $command->getDescription());
+        $this->assertSame(Command::SUCCESS, (new CommandTester($command))->execute([]));
     }
 
     public function testListsEveryFixtureWithARunnableCommand(): void

@@ -26,11 +26,11 @@
         "symfony/console": "^7.0.3 || ^8.0"
     },
     "require-dev": {
+        "ext-pdo_sqlite": "*",
         "laminas/laminas-coding-standard": "^3.0",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^12",
-        "ext-pdo_sqlite": "*"
+        "phpunit/phpunit": "^12.5"
     },
     "autoload": {
         "psr-4": {

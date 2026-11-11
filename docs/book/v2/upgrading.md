@@ -12,8 +12,7 @@ composer require dotkernel/dot-data-fixtures:^2.0
 | --- | --- | --- |
 | PHP 8.2 is no longer supported | Composer refuses to install 2.0 on PHP 8.2 | Upgrade to PHP 8.3 or later, or stay on 1.x |
 | `symfony/console` 7.0.0 to 7.0.2 and `symfony/string` 6.4.0 to 6.4.2 and 7.0.0 to 7.0.2 are no longer allowed | Composer refuses to install 2.0 while one of them is pinned | Update them (`composer update symfony/console symfony/string`) |
-| The protected static `$defaultName` property was removed from both commands | A subclass that reads `self::$defaultName` or `static::$defaultName` fails with "Access to undeclared static property" | Use `ExecuteFixturesCommand::NAME` or `ListFixturesCommand::NAME` |
-| Command names and descriptions come from `#[AsCommand]` | Code that calls `Command::getDefaultName()` fails on Symfony Console 8, where that method was removed | Use the `NAME` constants |
+| Command names and descriptions come from `#[AsCommand]` | Code that calls `Command::getDefaultName()` fails on Symfony Console 8, where that method was removed | Use the `NAME` and `DESCRIPTION` constants |
 | `--class` requires a value | `fixtures:execute --class` without a value prints `The "--class" option requires a value.` | Pass a fixture name, or omit the option to run all fixtures |
 | `--class` is a path relative to the fixtures folder | Fixtures in subfolders need the subfolder, for example `--class=User/UserLoader` | Use the command that `fixtures:list` prints |
 | `--class` cannot point outside the fixtures folder | `--class=../Other/File` used to load that file; it is now refused | Move the fixture into the fixtures folder |
@@ -49,4 +48,5 @@ php ./bin/doctrine fixtures:execute --class=User/UserLoader
 - The configuration key (`doctrine.fixtures`) and the `ConfigProvider`
 - The service keys `ExecuteFixturesCommand::class` and `ListFixturesCommand::class`, and the container key `Doctrine\ORM\EntityManager`
 - The command names `fixtures:execute` and `fixtures:list`
+- The protected static `$defaultName` property on both commands, with the same name and visibility as in 1.x, so subclasses that read or redeclare it keep working. Symfony Console 7 and 8 no longer read it; prefer the `NAME` constants in new code
 - Fixtures are appended; nothing is purged

@@ -23,16 +23,32 @@ use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
-#[AsCommand(name: self::NAME, description: 'List all available fixtures.')]
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class ListFixturesCommand extends Command
 {
-    public const NAME = 'fixtures:list';
+    public const NAME        = 'fixtures:list';
+    public const DESCRIPTION = 'List all available fixtures.';
+
+    /**
+     * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
+     * the name comes from #[AsCommand] and the constructor.
+     *
+     * @var string
+     */
+    protected static string $defaultName = self::NAME;
 
     public function __construct(
         private readonly Loader $loader,
         private readonly string $path,
     ) {
-        parent::__construct(self::NAME);
+        parent::__construct(self::$defaultName);
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->setName(self::$defaultName)
+            ->setDescription(self::DESCRIPTION);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

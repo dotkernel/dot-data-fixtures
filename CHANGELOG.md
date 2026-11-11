@@ -4,7 +4,7 @@
 
 ### Changed
 
-- `ExecuteFixturesCommand` and `ListFixturesCommand` take their name and description from `#[AsCommand]`
+- `ExecuteFixturesCommand` and `ListFixturesCommand` take their name and description from `#[AsCommand]`; `$defaultName` and `configure()` are kept and use the same values
 - `--class` requires a value and takes a path relative to the fixtures directory, for example `--class=User/UserLoader`
 - `fixtures:execute` prints an error and returns exit code `1` when a fixture cannot be loaded, instead of throwing
 - `fixtures:execute` prints the "Executing" lines before running the fixtures
@@ -19,7 +19,7 @@
 
 - Support for PHP 8.6
 - Support for `symfony/console` 8
-- `ExecuteFixturesCommand::NAME` and `ListFixturesCommand::NAME` constants
+- `NAME` and `DESCRIPTION` constants on `ExecuteFixturesCommand` and `ListFixturesCommand`
 - `psr/container` declared as a direct requirement
 - `ext-pdo_sqlite` as a development requirement, for the SQLite tests
 - Upgrade guide from 1.x
@@ -32,7 +32,6 @@
 ### Removed
 
 - Support for PHP 8.2
-- The protected static `$defaultName` property from both commands
 
 ### Fixed
 

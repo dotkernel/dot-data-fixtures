@@ -20,27 +20,39 @@ use function str_starts_with;
 
 use const DIRECTORY_SEPARATOR;
 
-#[AsCommand(name: self::NAME, description: 'Executes one or multiple fixtures.')]
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class ExecuteFixturesCommand extends Command
 {
-    public const NAME = 'fixtures:execute';
+    public const NAME        = 'fixtures:execute';
+    public const DESCRIPTION = 'Executes one or multiple fixtures.';
+
+    /**
+     * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
+     * the name comes from #[AsCommand] and the constructor.
+     *
+     * @var string
+     */
+    protected static string $defaultName = self::NAME;
 
     public function __construct(
         private readonly Loader $loader,
         private readonly ORMExecutor $executor,
         private readonly string $path,
     ) {
-        parent::__construct(self::NAME);
+        parent::__construct(self::$defaultName);
     }
 
     protected function configure(): void
     {
-        $this->addOption(
-            'class',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Execute a specific fixture, given by its path relative to the fixtures directory, without ".php".'
-        );
+        $this
+            ->setName(self::$defaultName)
+            ->setDescription(self::DESCRIPTION)
+            ->addOption(
+                'class',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Execute a specific fixture, given by its path relative to the fixtures directory, without ".php".'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

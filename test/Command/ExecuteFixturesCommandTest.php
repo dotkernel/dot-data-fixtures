@@ -11,9 +11,11 @@ use Dot\DataFixtures\Command\ExecuteFixturesCommand;
 use DotTest\DataFixtures\Fixtures\Data\RoleFixture;
 use DotTest\DataFixtures\Fixtures\Data\Sub\NestedFixture;
 use DotTest\DataFixtures\Fixtures\EntityManagerFactory;
+use DotTest\DataFixtures\Fixtures\Legacy\LegacyExecuteFixturesCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -48,6 +50,34 @@ class ExecuteFixturesCommandTest extends TestCase
         $this->assertSame(ExecuteFixturesCommand::NAME, $attributes[0]->newInstance()->name);
         $this->assertSame('fixtures:execute', $this->command->getName());
         $this->assertSame('Executes one or multiple fixtures.', $this->command->getDescription());
+    }
+
+    public function testDefaultNamePropertyKeepsItsVersion1Shape(): void
+    {
+        $property = new ReflectionProperty(ExecuteFixturesCommand::class, 'defaultName');
+
+        $this->assertTrue($property->isProtected());
+        $this->assertTrue($property->isStatic());
+        $this->assertFalse($property->hasType());
+        $this->assertSame(ExecuteFixturesCommand::NAME, $property->getValue());
+        $this->assertSame(ExecuteFixturesCommand::DESCRIPTION, $this->command->getDescription());
+    }
+
+    public function testVersion1SubclassRedeclaringDefaultNameStillWorks(): void
+    {
+        $command = new LegacyExecuteFixturesCommand(
+            new Loader(),
+            new ORMExecutor($this->entityManager),
+            EntityManagerFactory::FIXTURES_PATH
+        );
+
+        $this->assertSame(
+            'app:fixtures:execute',
+            (new ReflectionProperty(LegacyExecuteFixturesCommand::class, 'defaultName'))->getValue()
+        );
+        // As in 1.x, the parent uses self::$defaultName, so the command keeps its name.
+        $this->assertSame(ExecuteFixturesCommand::NAME, $command->getName());
+        $this->assertSame(Command::SUCCESS, (new CommandTester($command))->execute(['--class' => 'RoleFixture']));
     }
 
     public function testClassOptionRequiresValueAndHasNoDefault(): void
