@@ -6,65 +6,76 @@ namespace DotTest\DataFixtures\Command;
 
 use Doctrine\Common\DataFixtures\Loader;
 use Dot\DataFixtures\Command\ListFixturesCommand;
-use PHPUnit\Framework\MockObject\Exception;
+use DotTest\DataFixtures\Fixtures\Data\RoleFixture;
+use DotTest\DataFixtures\Fixtures\Data\Sub\NestedFixture;
+use DotTest\DataFixtures\Fixtures\EntityManagerFactory;
+use DotTest\DataFixtures\Fixtures\Legacy\LegacyListFixturesCommand;
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
-use ReflectionMethod;
+use ReflectionClass;
+use ReflectionProperty;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Tester\CommandTester;
 
-use function getcwd;
-
+#[CoversClass(ListFixturesCommand::class)]
 class ListFixturesCommandTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
-    public function testWillCreateCommand(): void
+    public function testNameAndDescriptionComeFromAttribute(): void
     {
-        $loader  = $this->createMock(Loader::class);
-        $path    = getcwd() . '/data/doctrine/fixtures';
-        $command = new ListFixturesCommand($loader, $path);
-        $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$command]);
+        $command    = new ListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH);
+        $attributes = (new ReflectionClass(ListFixturesCommand::class))->getAttributes(AsCommand::class);
+
+        $this->assertCount(1, $attributes);
+        $this->assertSame(ListFixturesCommand::NAME, $attributes[0]->newInstance()->name);
+        $this->assertSame('fixtures:list', $command->getName());
+        $this->assertSame('List all available fixtures.', $command->getDescription());
     }
 
-    /**
-     * @throws Exception
-     * @throws ReflectionException
-     */
-    public function testWillExecuteCommand(): void
+    public function testDefaultNamePropertyKeepsItsVersion1Shape(): void
     {
-        $loader = $this->createMock(Loader::class);
-        $loader->method('getFixtures')->willReturnMap([
-            [
-                [],
-            ],
-        ]);
-        $path = getcwd() . '/data/doctrine/fixtures';
+        $property = new ReflectionProperty(ListFixturesCommand::class, 'defaultName');
 
-        $command    = new ListFixturesCommand($loader, $path);
-        $reflection = new ReflectionMethod(ListFixturesCommand::class, 'execute');
+        $this->assertTrue($property->isProtected());
+        $this->assertTrue($property->isStatic());
+        $this->assertFalse($property->hasType());
+        $this->assertSame(ListFixturesCommand::NAME, $property->getValue());
+    }
 
-        $result = $reflection->invoke(
-            $command,
-            new ArgvInput(),
-            new BufferedOutput()
+    public function testVersion1SubclassRedeclaringDefaultNameStillWorks(): void
+    {
+        $command = new LegacyListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH);
+
+        $this->assertSame(
+            'app:fixtures:list',
+            (new ReflectionProperty(LegacyListFixturesCommand::class, 'defaultName'))->getValue()
         );
-        $this->assertSame($result, Command::SUCCESS);
+        // As in 1.x, the parent uses self::$defaultName, so the command keeps its name.
+        $this->assertSame(ListFixturesCommand::NAME, $command->getName());
+        $this->assertSame(ListFixturesCommand::DESCRIPTION, $command->getDescription());
+        $this->assertSame(Command::SUCCESS, (new CommandTester($command))->execute([]));
     }
 
-    /**
-     * @throws Exception
-     */
-    public function testFunctions(): void
+    public function testListsEveryFixtureWithARunnableCommand(): void
     {
-        $loader      = $this->createMock(Loader::class);
-        $path        = getcwd() . '/data/doctrine/fixtures';
-        $command     = new ListFixturesCommand($loader, $path);
-        $defaultName = $command->getName();
-        $description = $command->getDescription();
-        $this->assertSame('fixtures:list', $defaultName);
-        $this->assertSame('List all available fixtures.', $description);
+        $tester = new CommandTester(new ListFixturesCommand(new Loader(), EntityManagerFactory::FIXTURES_PATH));
+
+        $this->assertSame(Command::SUCCESS, $tester->execute([]));
+
+        $display = $tester->getDisplay();
+        $this->assertStringContainsString(RoleFixture::class, $display);
+        $this->assertStringContainsString(NestedFixture::class, $display);
+        $this->assertStringContainsString('fixtures:execute --class=RoleFixture ', $display);
+        $this->assertStringContainsString('fixtures:execute --class=Sub/NestedFixture ', $display);
+        $this->assertMatchesRegularExpression('/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/', $display);
+    }
+
+    public function testMissingFixturesDirectoryThrows(): void
+    {
+        $tester = new CommandTester(new ListFixturesCommand(new Loader(), __DIR__ . '/does-not-exist'));
+
+        $this->expectException(InvalidArgumentException::class);
+        $tester->execute([]);
     }
 }

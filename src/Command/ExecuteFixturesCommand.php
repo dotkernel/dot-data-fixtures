@@ -6,19 +6,31 @@ namespace Dot\DataFixtures\Command;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
+use InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function is_string;
+use function realpath;
 use function sprintf;
+use function str_starts_with;
 
 use const DIRECTORY_SEPARATOR;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class ExecuteFixturesCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'fixtures:execute';
+    public const NAME        = 'fixtures:execute';
+    public const DESCRIPTION = 'Executes one or multiple fixtures.';
+
+    /**
+     * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
+     * the name comes from #[AsCommand] and the constructor.
+     */
+    protected static string $defaultName = self::NAME;
 
     public function __construct(
         private readonly Loader $loader,
@@ -30,32 +42,39 @@ class ExecuteFixturesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(self::$defaultName)
-            ->setDescription('Executes one or multiple fixtures.')
+        $this
+            ->setName(self::$defaultName)
+            ->setDescription(self::DESCRIPTION)
             ->addOption(
                 'class',
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'Execute a specific fixture.',
-                false
+                InputOption::VALUE_REQUIRED,
+                'Execute a specific fixture, given by its path relative to the fixtures directory, without ".php".'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getOption('class') === false) {
-            $this->loader->loadFromDirectory($this->path);
-        } else {
-            $this->loader->loadFromFile($this->path . DIRECTORY_SEPARATOR . $input->getOption('class') . '.php');
+        $class = $input->getOption('class');
+
+        try {
+            if (is_string($class)) {
+                $this->loader->loadFromFile($this->resolveFixtureFile($class));
+            } else {
+                $this->loader->loadFromDirectory($this->path);
+            }
+        } catch (InvalidArgumentException $exception) {
+            $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
+
+            return Command::FAILURE;
         }
 
         $fixtures = $this->loader->getFixtures();
+        foreach ($fixtures as $fixture) {
+            $output->writeln(sprintf('<info>Executing %s</info>', $fixture::class));
+        }
 
         $this->executor->execute($fixtures, true);
-
-        foreach ($fixtures as $fixture) {
-            $output->writeln(sprintf('<info>Executing %s </info>', $fixture::class));
-        }
 
         $output->writeln("<info>Fixtures have been loaded.</info>");
         $output->write("<info>                .''
@@ -65,6 +84,29 @@ class ExecuteFixturesCommand extends Command
     ' <' `\ ._/'\
        `   \     \
 </info>");
+
         return Command::SUCCESS;
+    }
+
+    /**
+     * Resolves a fixture name relative to the fixtures directory and refuses any file outside it.
+     *
+     * @throws InvalidArgumentException
+     */
+    private function resolveFixtureFile(string $class): string
+    {
+        $directory = realpath($this->path);
+        $file      = realpath($this->path . DIRECTORY_SEPARATOR . $class . '.php');
+        if (
+            ! is_string($directory)
+            || ! is_string($file)
+            || ! str_starts_with($file, $directory . DIRECTORY_SEPARATOR)
+        ) {
+            throw new InvalidArgumentException(
+                sprintf('Fixture "%s" was not found in "%s".', $class, $this->path)
+            );
+        }
+
+        return $file;
     }
 }

@@ -9,30 +9,29 @@ use Dot\DataFixtures\Command\ListFixturesCommand;
 use Dot\DataFixtures\ConfigProvider;
 use Dot\DataFixtures\Factory\ExecuteFixturesCommandFactory;
 use Dot\DataFixtures\Factory\ListFixturesCommandFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(ConfigProvider::class)]
 class ConfigProviderTest extends TestCase
 {
-    protected array $config;
-
-    protected function setup(): void
+    public function testInvokeReturnsDependencies(): void
     {
-        $this->config = (new ConfigProvider())();
+        $provider = new ConfigProvider();
+
+        $this->assertSame(['dependencies' => $provider->getDependencies()], $provider());
     }
 
-    public function testHasDependencies(): void
+    public function testRegistersFactoryForEachCommand(): void
     {
-        $this->assertArrayHasKey('dependencies', $this->config);
-    }
-
-    public function testDependenciesHasFactories(): void
-    {
-        $this->assertArrayHasKey('factories', $this->config['dependencies']);
-
-        $factories = $this->config['dependencies']['factories'];
-        $this->assertArrayHasKey(ExecuteFixturesCommand::class, $factories);
-        $this->assertSame(ExecuteFixturesCommandFactory::class, $factories[ExecuteFixturesCommand::class]);
-        $this->assertArrayHasKey(ListFixturesCommand::class, $factories);
-        $this->assertSame(ListFixturesCommandFactory::class, $factories[ListFixturesCommand::class]);
+        $this->assertSame(
+            [
+                'factories' => [
+                    ExecuteFixturesCommand::class => ExecuteFixturesCommandFactory::class,
+                    ListFixturesCommand::class    => ListFixturesCommandFactory::class,
+                ],
+            ],
+            (new ConfigProvider())->getDependencies()
+        );
     }
 }
