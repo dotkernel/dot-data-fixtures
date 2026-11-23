@@ -11,26 +11,36 @@ Documentation is available at: https://docs.dotkernel.org/dot-data-fixtures/.
 ## Badges
 
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/dotkernel/dot-data-fixtures)
-![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.5.0)
+![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/2.0.0)
 
 [![GitHub issues](https://img.shields.io/github/issues/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/issues)
 [![GitHub forks](https://img.shields.io/github/forks/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/network)
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/stargazers)
-[![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/1.0/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/2.0/LICENSE)
 
-[![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml)
+[![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml/badge.svg?branch=2.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/dotkernel/dot-data-fixtures/graph/badge.svg?token=PGOXZOZAB0)](https://codecov.io/gh/dotkernel/dot-data-fixtures)
-[![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
+[![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=2.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
 
 This package provides a CLI interface for interacting with doctrine/data-fixtures.
 
-**Executing fixtures will **append** data to the tables.**
+**Executing fixtures will append data to the tables.**
+
+## Versions
+
+| Version | Branch | Status | PHP |
+| --- | --- | --- | --- |
+| 2.x | `2.0` | Active | 8.3, 8.4, 8.5, 8.6 |
+| 1.x | `1.0` | Security fixes only | 8.2, 8.3, 8.4, 8.5 |
+
+Upgrading from 1.x? See the [upgrade guide](https://docs.dotkernel.org/dot-data-fixtures/v2/upgrading/).
 
 ## Requirements
 
-- **PHP**: 8.2, 8.3 or 8.4
-- **doctrine/orm**: => 3.0
-- **doctrine/data-fixtures**: => 2.0
+- **PHP**: 8.3, 8.4, 8.5 or 8.6
+- **doctrine/orm**: >= 3.0
+- **doctrine/data-fixtures**: >= 2.0
+- **symfony/console**: 7.0.3 or later, or 8.x
 
 ## Installation
 
@@ -47,6 +57,7 @@ Next, register the package's ConfigProvider into your application config.
 ```
 
 In `doctrine.global.php` (or your custom doctrine config file) add a new key `fixtures`, in the `doctrine` array, the value should be a valid path to a folder where your fixtures can be found.
+The folder is scanned recursively, so fixtures can be grouped in subfolders.
 
 **Make sure the path is valid before proceeding to the next step.**
 
@@ -54,9 +65,11 @@ In `doctrine.global.php` (or your custom doctrine config file) add a new key `fi
 
 ```php
 return [
-    'dependencies' => [ ... ],
-    'doctrine' => [
-        ...,
+    'dependencies' => [
+        // ...
+    ],
+    'doctrine'     => [
+        // ...
         'fixtures' => getcwd() . '/data/doctrine/fixtures',
     ],
 ];
@@ -69,12 +82,14 @@ Create a new php file `bin/doctrine` (if you don't already have this file feel f
 ```php
 <?php
 
+declare(strict_types=1);
+
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
 require_once 'vendor/autoload.php';
 
-$container = require getcwd() . '/config/container.php' ;
+$container = require getcwd() . '/config/container.php';
 
 $entityManager = $container->get(\Doctrine\ORM\EntityManager::class);
 
@@ -91,11 +106,11 @@ ConsoleRunner::run(
 
 ## Usage
 
-**List fixtures command**: will list all the available fixtures, by order of execution.
+**List fixtures command**: will list all the available fixtures, by order of execution, with the command that executes each one and when its file was last changed (in UTC).
 
-````shell
+```shell
 php ./bin/doctrine fixtures:list
-````
+```
 
 **Execute fixtures command**: this command will execute one or all fixtures.
 
@@ -105,19 +120,23 @@ To execute all the fixtures, run:
 php ./bin/doctrine fixtures:execute
 ```
 
-To execute a specific fixture, run:
+To execute a specific fixture, pass its path relative to the fixtures folder, without `.php`:
 
 ```shell
 php ./bin/doctrine fixtures:execute --class=RoleLoader
+php ./bin/doctrine fixtures:execute --class=User/UserLoader
 ```
+
+`--class` must have a value. A missing fixture, or a path outside the fixtures folder, prints an error and exits with code `1`.
 
 ## Creating fixtures
 
 When creating a new fixture, we have two requirements:
 
-- Fixtures should be created in the folder we configured earlier: `data/doctrine/fixtures`
+- Fixtures should be created in the folder we configured earlier, `data/doctrine/fixtures`, or in a subfolder of it.
 - Fixtures should implement `FixtureInterface` and have a `load` method.
-- Create a new PHP file and copy the below code-block.
+
+Create a new PHP file and copy the below code-block.
 
 ### Example
 
@@ -132,7 +151,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Frontend\User\Entity\UserRole;
 
-
 class RoleLoader implements FixtureInterface
 {
     public function load(ObjectManager $manager): void
@@ -142,10 +160,10 @@ class RoleLoader implements FixtureInterface
 
         $userRole = new UserRole();
         $userRole->setName('user');
-        
+
         $guestRole = new UserRole();
         $guestRole->setName('guest');
-        
+
         $manager->persist($adminRole);
         $manager->persist($userRole);
         $manager->persist($guestRole);

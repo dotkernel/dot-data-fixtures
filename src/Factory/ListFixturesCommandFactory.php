@@ -11,6 +11,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+use function is_array;
 use function is_string;
 
 class ListFixturesCommandFactory
@@ -22,14 +23,14 @@ class ListFixturesCommandFactory
      */
     public function __invoke(ContainerInterface $container): ListFixturesCommand
     {
-        $path = $container->get('config')['doctrine']['fixtures'] ?? null;
+        $config = $container->get('config');
+        $path   = is_array($config) && is_array($config['doctrine'] ?? null)
+            ? $config['doctrine']['fixtures'] ?? null
+            : null;
         if (! is_string($path)) {
             throw new NotFoundException('Key `fixtures` not found in doctrine configuration.');
         }
 
-        return new ListFixturesCommand(
-            new Loader(),
-            $path
-        );
+        return new ListFixturesCommand(new Loader(), $path);
     }
 }

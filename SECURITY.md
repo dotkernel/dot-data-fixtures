@@ -2,11 +2,10 @@
 
 ## Supported Versions
 
-
-| Version | Supported          | PHP Version                                                                                                       |
-|---------|--------------------|-------------------------------------------------------------------------------------------------------------------|
-| 1.x     | :white_check_mark: | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.5.0) |
-
+| Version | Supported              | PHP Version                                                                                                       |
+|---------|------------------------|-------------------------------------------------------------------------------------------------------------------|
+| 2.x     | :white_check_mark:     | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/2.0.0) |
+| 1.x     | Security fixes only    | ![PHP from Packagist (specify version)](https://img.shields.io/packagist/php-v/dotkernel/dot-data-fixtures/1.5.0) |
 
 ## Reporting Potential Security Issues
 
@@ -25,7 +24,6 @@ project contributors a chance to resolve the vulnerability and issue a new
 release prior to any public exposure; this helps protect the project's
 users, and provides them with a chance to upgrade and/or update in order to
 protect their applications.
-
 
 ## Policy
 
