@@ -12,5 +12,5 @@ use Dot\DataFixtures\Command\ExecuteFixturesCommand;
 class LegacyExecuteFixturesCommand extends ExecuteFixturesCommand
 {
     /** @var string */
-    protected static string $defaultName = 'app:fixtures:execute';
+    protected static $defaultName = 'app:fixtures:execute';
 }

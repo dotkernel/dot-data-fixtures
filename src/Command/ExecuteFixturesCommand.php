@@ -20,17 +20,23 @@ use function str_starts_with;
 
 use const DIRECTORY_SEPARATOR;
 
-#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
+#[AsCommand(
+    name: ExecuteFixturesCommand::DEFAULT_NAME,
+    description: ExecuteFixturesCommand::DESCRIPTION,
+)]
 class ExecuteFixturesCommand extends Command
 {
-    public const NAME        = 'fixtures:execute';
-    public const DESCRIPTION = 'Executes one or multiple fixtures.';
+    public const string DEFAULT_NAME = 'fixtures:execute';
+    public const string DESCRIPTION  = 'Executes one or multiple fixtures.';
 
     /**
      * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
      * the name comes from #[AsCommand] and the constructor.
+     * Untyped on purpose: a typed property breaks 1.x subclasses that redeclare it without a type.
+     *
+     * @var string
      */
-    protected static string $defaultName = self::NAME;
+    protected static $defaultName = self::DEFAULT_NAME;
 
     public function __construct(
         private readonly Loader $loader,

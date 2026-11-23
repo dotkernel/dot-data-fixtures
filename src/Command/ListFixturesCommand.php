@@ -23,17 +23,23 @@ use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
-#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
+#[AsCommand(
+    name: ListFixturesCommand::DEFAULT_NAME,
+    description: ListFixturesCommand::DESCRIPTION,
+)]
 class ListFixturesCommand extends Command
 {
-    public const NAME        = 'fixtures:list';
-    public const DESCRIPTION = 'List all available fixtures.';
+    public const string DEFAULT_NAME = 'fixtures:list';
+    public const string DESCRIPTION  = 'List all available fixtures.';
 
     /**
      * Kept from 1.x for subclasses that read it. Symfony Console 7 and 8 no longer read it;
      * the name comes from #[AsCommand] and the constructor.
+     * Untyped on purpose: a typed property breaks 1.x subclasses that redeclare it without a type.
+     *
+     * @var string
      */
-    protected static string $defaultName = self::NAME;
+    protected static $defaultName = self::DEFAULT_NAME;
 
     public function __construct(
         private readonly Loader $loader,
@@ -64,7 +70,7 @@ class ListFixturesCommand extends Command
                 if (str_starts_with($fileName, $directory)) {
                     $relative = substr($fileName, strlen($directory), -strlen('.php'));
                     $relative = str_replace(DIRECTORY_SEPARATOR, '/', $relative);
-                    $command  = ExecuteFixturesCommand::NAME . ' --class=' . $relative;
+                    $command  = ExecuteFixturesCommand::DEFAULT_NAME . ' --class=' . $relative;
                 }
 
                 $modified = filemtime($fileName);

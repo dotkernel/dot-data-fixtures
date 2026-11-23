@@ -28,7 +28,7 @@ class ListFixturesCommandTest extends TestCase
         $attributes = (new ReflectionClass(ListFixturesCommand::class))->getAttributes(AsCommand::class);
 
         $this->assertCount(1, $attributes);
-        $this->assertSame(ListFixturesCommand::NAME, $attributes[0]->newInstance()->name);
+        $this->assertSame(ListFixturesCommand::DEFAULT_NAME, $attributes[0]->newInstance()->name);
         $this->assertSame('fixtures:list', $command->getName());
         $this->assertSame('List all available fixtures.', $command->getDescription());
     }
@@ -40,7 +40,7 @@ class ListFixturesCommandTest extends TestCase
         $this->assertTrue($property->isProtected());
         $this->assertTrue($property->isStatic());
         $this->assertFalse($property->hasType());
-        $this->assertSame(ListFixturesCommand::NAME, $property->getValue());
+        $this->assertSame(ListFixturesCommand::DEFAULT_NAME, $property->getValue());
     }
 
     public function testVersion1SubclassRedeclaringDefaultNameStillWorks(): void
@@ -52,7 +52,7 @@ class ListFixturesCommandTest extends TestCase
             (new ReflectionProperty(LegacyListFixturesCommand::class, 'defaultName'))->getValue()
         );
         // As in 1.x, the parent uses self::$defaultName, so the command keeps its name.
-        $this->assertSame(ListFixturesCommand::NAME, $command->getName());
+        $this->assertSame(ListFixturesCommand::DEFAULT_NAME, $command->getName());
         $this->assertSame(ListFixturesCommand::DESCRIPTION, $command->getDescription());
         $this->assertSame(Command::SUCCESS, (new CommandTester($command))->execute([]));
     }

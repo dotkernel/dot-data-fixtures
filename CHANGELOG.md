@@ -19,7 +19,7 @@
 
 - Support for PHP 8.6
 - Support for `symfony/console` 8
-- `NAME` and `DESCRIPTION` constants on `ExecuteFixturesCommand` and `ListFixturesCommand`
+- `DEFAULT_NAME` and `DESCRIPTION` typed constants (`public const string`) on `ExecuteFixturesCommand` and `ListFixturesCommand`
 - `psr/container` declared as a direct requirement
 - `ext-pdo_sqlite` as a development requirement, for the SQLite tests
 - Upgrade guide from 1.x

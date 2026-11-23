@@ -12,5 +12,5 @@ use Dot\DataFixtures\Command\ListFixturesCommand;
 class LegacyListFixturesCommand extends ListFixturesCommand
 {
     /** @var string */
-    protected static string $defaultName = 'app:fixtures:list';
+    protected static $defaultName = 'app:fixtures:list';
 }

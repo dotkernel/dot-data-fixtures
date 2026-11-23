@@ -47,7 +47,7 @@ class ExecuteFixturesCommandTest extends TestCase
         $attributes = (new ReflectionClass(ExecuteFixturesCommand::class))->getAttributes(AsCommand::class);
 
         $this->assertCount(1, $attributes);
-        $this->assertSame(ExecuteFixturesCommand::NAME, $attributes[0]->newInstance()->name);
+        $this->assertSame(ExecuteFixturesCommand::DEFAULT_NAME, $attributes[0]->newInstance()->name);
         $this->assertSame('fixtures:execute', $this->command->getName());
         $this->assertSame('Executes one or multiple fixtures.', $this->command->getDescription());
     }
@@ -59,7 +59,7 @@ class ExecuteFixturesCommandTest extends TestCase
         $this->assertTrue($property->isProtected());
         $this->assertTrue($property->isStatic());
         $this->assertFalse($property->hasType());
-        $this->assertSame(ExecuteFixturesCommand::NAME, $property->getValue());
+        $this->assertSame(ExecuteFixturesCommand::DEFAULT_NAME, $property->getValue());
         $this->assertSame(ExecuteFixturesCommand::DESCRIPTION, $this->command->getDescription());
     }
 
@@ -76,7 +76,7 @@ class ExecuteFixturesCommandTest extends TestCase
             (new ReflectionProperty(LegacyExecuteFixturesCommand::class, 'defaultName'))->getValue()
         );
         // As in 1.x, the parent uses self::$defaultName, so the command keeps its name.
-        $this->assertSame(ExecuteFixturesCommand::NAME, $command->getName());
+        $this->assertSame(ExecuteFixturesCommand::DEFAULT_NAME, $command->getName());
         $this->assertSame(Command::SUCCESS, (new CommandTester($command))->execute(['--class' => 'RoleFixture']));
     }
 
