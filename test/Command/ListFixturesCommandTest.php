@@ -23,7 +23,7 @@ class ListFixturesCommandTest extends TestCase
      */
     public function testWillCreateCommand(): void
     {
-        $loader  = $this->createMock(Loader::class);
+        $loader  = $this->createStub(Loader::class);
         $path    = getcwd() . '/data/doctrine/fixtures';
         $command = new ListFixturesCommand($loader, $path);
         $this->assertContainsOnlyInstancesOf(ListFixturesCommand::class, [$command]);
@@ -35,7 +35,7 @@ class ListFixturesCommandTest extends TestCase
      */
     public function testWillExecuteCommand(): void
     {
-        $loader = $this->createMock(Loader::class);
+        $loader = $this->createStub(Loader::class);
         $loader->method('getFixtures')->willReturnMap([
             [
                 [],
@@ -59,7 +59,7 @@ class ListFixturesCommandTest extends TestCase
      */
     public function testFunctions(): void
     {
-        $loader      = $this->createMock(Loader::class);
+        $loader      = $this->createStub(Loader::class);
         $path        = getcwd() . '/data/doctrine/fixtures';
         $command     = new ListFixturesCommand($loader, $path);
         $defaultName = $command->getName();
