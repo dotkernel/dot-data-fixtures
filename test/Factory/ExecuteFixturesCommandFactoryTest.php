@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Dot\DataFixtures\Command\ExecuteFixturesCommand;
 use Dot\DataFixtures\Exception\NotFoundException;
 use Dot\DataFixtures\Factory\ExecuteFixturesCommandFactory;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -74,12 +75,13 @@ class ExecuteFixturesCommandFactoryTest extends TestCase
      * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testPath(): void
     {
-        $configuration = $this->createMock(Configuration::class);
-        $connection    = $this->createMock(Connection::class);
-        $entityManager = $this->createMock(EntityManager::class);
-        $eventManager  = $this->createMock(EventManager::class);
+        $configuration = $this->createStub(Configuration::class);
+        $connection    = $this->createStub(Connection::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $eventManager  = $this->createStub(EventManager::class);
         $connection->method('getConfiguration')->willReturn($configuration);
         $entityManager->method('getConnection')->willReturn($connection);
         $entityManager->method('getEventManager')->willReturn($eventManager);

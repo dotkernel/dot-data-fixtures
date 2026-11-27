@@ -7,6 +7,7 @@ namespace DotTest\DataFixtures\Factory;
 use Dot\DataFixtures\Command\ListFixturesCommand;
 use Dot\DataFixtures\Exception\NotFoundException;
 use Dot\DataFixtures\Factory\ListFixturesCommandFactory;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -50,6 +51,7 @@ class ListFixturesCommandFactoryTest extends TestCase
      * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
+    #[AllowMockObjectsWithoutExpectations]
     public function testPathWithConfig(): void
     {
         $this->container->method('get')->willReturnMap([

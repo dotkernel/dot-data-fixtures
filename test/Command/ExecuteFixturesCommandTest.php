@@ -30,8 +30,8 @@ class ExecuteFixturesCommandTest extends TestCase
      */
     public function testWillCreateCommand(): void
     {
-        $entityManager = $this->createMock(EntityManager::class);
-        $loader        = $this->createMock(Loader::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $loader        = $this->createStub(Loader::class);
         $path          = getcwd() . '/data/doctrine/fixtures';
         $executor      = new ReflectionClass(ORMExecutor::class);
         $executor      = $executor->newInstance($entityManager);
@@ -46,11 +46,11 @@ class ExecuteFixturesCommandTest extends TestCase
      */
     public function testWillExecuteCommand(): void
     {
-        $configuration = $this->createMock(Configuration::class);
-        $connection    = $this->createMock(Connection::class);
-        $entityManager = $this->createMock(EntityManager::class);
-        $eventManager  = $this->createMock(EventManager::class);
-        $loader        = $this->createMock(Loader::class);
+        $configuration = $this->createStub(Configuration::class);
+        $connection    = $this->createStub(Connection::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $eventManager  = $this->createStub(EventManager::class);
+        $loader        = $this->createStub(Loader::class);
         $executor      = new ReflectionClass(ORMExecutor::class);
         $executor      = $executor->newInstance($entityManager);
         $connection->method('getConfiguration')->willReturn($configuration);
@@ -75,8 +75,8 @@ class ExecuteFixturesCommandTest extends TestCase
      */
     public function testConfigure(): void
     {
-        $entityManager = $this->createMock(EntityManager::class);
-        $loader        = $this->createMock(Loader::class);
+        $entityManager = $this->createStub(EntityManager::class);
+        $loader        = $this->createStub(Loader::class);
         $executor      = new ReflectionClass(ORMExecutor::class);
         $executor      = $executor->newInstance($entityManager);
 
