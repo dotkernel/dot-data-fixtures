@@ -16,6 +16,6 @@ Executing fixtures will append data to the tables.
 [![GitHub stars](https://img.shields.io/github/stars/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/stargazers)
 [![GitHub license](https://img.shields.io/github/license/dotkernel/dot-data-fixtures)](https://github.com/dotkernel/dot-data-fixtures/blob/1.0/LICENSE)
 
-[![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml)
+[![Build Static](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml/badge.svg?branch=1.x)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/dotkernel/dot-data-fixtures/graph/badge.svg?token=PGOXZOZAB0)](https://codecov.io/gh/dotkernel/dot-data-fixtures)
-[![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.0)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
+[![PHPStan](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml/badge.svg?branch=1.x)](https://github.com/dotkernel/dot-data-fixtures/actions/workflows/static-analysis.yml)
